@@ -1,4 +1,8 @@
-# Bifrost Project Continuation
+6. ✅ Added infrastructure and DevOps documentation
+   - Created comprehensive infrastructure design
+   - Developed CI/CD pipeline configuration
+   - Added container orchestration for Kubernetes
+   - Included security and deployment considerations# Bifrost Project Continuation
 
 This file tracks the progress of the Bifrost project development and serves as a reference for continuing work when chat sessions reach their limits.
 
@@ -28,7 +32,26 @@ This file tracks the progress of the Bifrost project development and serves as a
    - Designed rich domain model with value objects
    - Specified domain events and rules
 
-### GitHub Repository Setup
+5. ✅ Added architecture and database diagrams
+   - Created visual representation of system architecture
+   - Designed database entity relationship diagram
+   - Added detailed documentation for both diagrams
+
+## Architecture and Database Diagrams
+
+The project now includes visual documentation:
+
+1. **Architecture Diagram**: [docs/diagrams/architecture_diagram.md](docs/diagrams/architecture_diagram.md)
+   - Illustrates the layered architecture
+   - Shows component interactions
+   - Defines system boundaries
+
+2. **Database Entity Relationship Diagram**: [docs/diagrams/database_diagram.md](docs/diagrams/database_diagram.md)
+   - Visualizes database schema
+   - Shows entity relationships
+   - Documents field types and keys
+
+## GitHub Repository Setup
 
 To set up the GitHub repository for this project:
 

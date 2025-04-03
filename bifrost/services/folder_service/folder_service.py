@@ -95,6 +95,8 @@ class FolderService:
                     shot_work_path=FolderTemplate(processed_paths['shot_work_path']),
                     render_path=FolderTemplate(processed_paths['render_path']) if 'render_path' in processed_paths else None,
                     cache_path=FolderTemplate(processed_paths['cache_path']) if 'cache_path' in processed_paths else None,
+                    asset_published_cache_path=FolderTemplate(processed_paths['asset_published_cache_path']) if 'asset_published_cache_path' in processed_paths else None,
+                    shot_published_cache_path=FolderTemplate(processed_paths['shot_published_cache_path']) if 'shot_published_cache_path' in processed_paths else None,
                     deliverable_path=FolderTemplate(processed_paths['deliverable_path']) if 'deliverable_path' in processed_paths else None
                 )
             return mappings
@@ -327,6 +329,12 @@ class FolderService:
                     template = studio.cache_path
                 else:
                     raise ValueError(f"Cache path not defined for studio: {self.studio_name}")
+            elif data_type == DataType.PUBLISHED_CACHE:
+                if studio.asset_published_cache_path:
+                    template = studio.asset_published_cache_path
+                else:
+                    # Fall back to a subdirectory in the published path if not explicitly defined
+                    template = FolderTemplate(f"{studio.asset_published_path.template}/cache/{{{cache_type or 'CACHE_TYPE'}}}")
             elif data_type == DataType.DELIVERABLE:
                 if studio.deliverable_path:
                     template = studio.deliverable_path
@@ -356,6 +364,12 @@ class FolderService:
                     template = studio.cache_path
                 else:
                     raise ValueError(f"Cache path not defined for studio: {self.studio_name}")
+            elif data_type == DataType.PUBLISHED_CACHE:
+                if studio.shot_published_cache_path:
+                    template = studio.shot_published_cache_path
+                else:
+                    # Fall back to a subdirectory in the published path if not explicitly defined
+                    template = FolderTemplate(f"{studio.shot_published_path.template}/cache/{{{cache_type or 'CACHE_TYPE'}}}")
             elif data_type == DataType.DELIVERABLE:
                 if studio.deliverable_path:
                     template = studio.deliverable_path
@@ -539,6 +553,10 @@ class FolderService:
             template = target.render_path
         elif path_type == "cache":
             template = target.cache_path
+        elif path_type == "asset_published_cache":
+            template = target.asset_published_cache_path
+        elif path_type == "shot_published_cache":
+            template = target.shot_published_cache_path
         elif path_type == "deliverable":
             template = target.deliverable_path
         else:
@@ -574,6 +592,10 @@ class FolderService:
             template_types.append(("render", studio_mapping.render_path))
         if studio_mapping.cache_path:
             template_types.append(("cache", studio_mapping.cache_path))
+        if studio_mapping.asset_published_cache_path:
+            template_types.append(("asset_published_cache", studio_mapping.asset_published_cache_path))
+        if studio_mapping.shot_published_cache_path:
+            template_types.append(("shot_published_cache", studio_mapping.shot_published_cache_path))
         if studio_mapping.deliverable_path:
             template_types.append(("deliverable", studio_mapping.deliverable_path))
         

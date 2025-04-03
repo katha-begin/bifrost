@@ -33,6 +33,7 @@ class DataType(Enum):
     WORK = "work"           # Work-in-progress data
     PUBLISHED = "published"  # Published, validated data
     CACHE = "cache"          # Temporary, regeneratable data
+    PUBLISHED_CACHE = "published_cache"  # Published, final cache data
     RENDER = "render"        # Render output data
     DELIVERABLE = "deliverable"  # Final deliverable data
 
@@ -73,6 +74,8 @@ class StudioMapping:
         shot_work_path: Template for work-in-progress shot paths
         render_path: Template for render output paths
         cache_path: Template for cache data paths
+        asset_published_cache_path: Template for published asset cache paths
+        shot_published_cache_path: Template for published shot cache paths
         deliverable_path: Template for deliverable paths
     """
     name: str
@@ -82,4 +85,6 @@ class StudioMapping:
     shot_work_path: FolderTemplate
     render_path: Optional[FolderTemplate] = None
     cache_path: Optional[FolderTemplate] = None
+    asset_published_cache_path: Optional[FolderTemplate] = None
+    shot_published_cache_path: Optional[FolderTemplate] = None
     deliverable_path: Optional[FolderTemplate] = None
