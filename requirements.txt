@@ -1,0 +1,37 @@
+# Bifrost Animation Asset Management System Requirements
+
+# Core dependencies
+sqlalchemy>=1.4.0
+pyyaml>=6.0.0
+click>=8.0.0
+rich>=10.0.0
+requests>=2.26.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+pydantic>=1.8.2
+python-dotenv>=0.19.0
+uuid>=1.30
+
+# UI dependencies
+pyside6>=6.2.0
+
+# Testing
+pytest>=6.2.5
+pytest-cov>=2.12.1
+pytest-mock>=3.6.1
+
+# Documentation
+sphinx>=4.2.0
+sphinx-rtd-theme>=1.0.0
+
+# Cloud integration
+boto3>=1.18.0
+google-cloud-storage>=1.42.0
+
+# OpenUSD integration
+usd-core>=23.11.0
+# Note: On Linux, additional system packages may be required:
+# sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev libxi-dev libxrandr-dev
+
+# OpenAssetIO integration
+openassetio>=1.0.0b1

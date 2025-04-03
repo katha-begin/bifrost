@@ -1,0 +1,140 @@
+# Bifrost default configuration
+
+# Project configuration
+project:
+  name: "Bifrost Animation Project"
+  code: "BIFROST"
+  root_path: "D:/production"
+  studio_name: "main_studio"
+
+# Folder structure configuration
+folder_structure:
+  work_root: "work"
+  published_root: "published"
+  output_root: "output"
+  mappings_file: "config/pipeline/folder_mapping.yaml"
+  dependencies_file: "config/pipeline/dependencies.yaml"
+  series_file: "config/show/series_metadata.yaml"
+
+# Database configuration
+database:
+  type: sqlite  # Options: sqlite, postgresql
+  path: data/bifrost.db
+  # For future PostgreSQL support:
+  # host: localhost
+  # port: 5432
+  # name: bifrost
+  # user: bifrost_user
+  # password: changeme
+
+# Storage configuration
+storage:
+  local:
+    work_path: "${project.root_path}/${folder_structure.work_root}"
+    published_path: "${project.root_path}/${folder_structure.published_root}"
+    output_path: "${project.root_path}/${folder_structure.output_root}"
+    temp_path: "${project.root_path}/temp"
+  network:
+    enabled: false
+    # work_path: //server/share/work
+    # published_path: //server/share/published
+    # output_path: //server/share/output
+    protocol: smb  # Options: smb, nfs
+  cloud:
+    enabled: false
+    # provider: aws  # Options: aws, gcp, azure
+    # bucket_prefix: bifrost
+    # region: us-west-2
+    # cache_path: data/cloud_cache
+
+# Logging configuration
+log:
+  level: INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  path: logs/bifrost.log
+  max_size_mb: 10
+  backup_count: 5
+  console: true
+
+# User interface configuration
+ui:
+  theme: dark  # Options: dark, light, system
+  language: en
+  default_view: grid  # Options: grid, list, details
+  thumbnail_size: medium  # Options: small, medium, large
+  auto_refresh: true
+  refresh_interval_sec: 30
+
+# API configuration
+api:
+  enabled: false
+  host: 0.0.0.0
+  port: 8000
+  debug: false
+  cors_origins: ["*"]
+  auth:
+    enabled: false
+    # jwt_secret: changeme
+    # token_expire_minutes: 1440
+
+# DCC integration configuration
+integrations:
+  # Maya configuration
+  maya:
+    enabled: true
+    supported_versions: ["2022", "2023", "2024"]
+    default_workspace: data/maya
+    
+  # Blender configuration
+  blender:
+    enabled: true
+    supported_versions: ["3.0", "3.1", "3.2", "3.3", "3.4", "3.5"]
+    default_workspace: data/blender
+    
+  # Houdini configuration
+  houdini:
+    enabled: true
+    supported_versions: ["19.0", "19.5", "20.0"]
+    default_workspace: data/houdini
+
+# Performance configuration
+performance:
+  threads: 4
+  chunk_size_mb: 64
+  cache_size_mb: 512
+  optimize_db_interval_hours: 24
+
+# OpenUSD configuration
+usd:
+  enabled: true
+  stage_cache_size_mb: 1024
+  supported_formats:
+    - usd
+    - usda
+    - usdc
+    - usdz
+  default_up_axis: "Y"
+  conversion:
+    enabled: true
+    temp_dir: temp/usd_conversion
+  # Version control strategies:
+  # - "layer_stack": Use USD layer stacks for version control (default)
+  # - "separate_files": Use separate files for each version
+  version_strategy: "layer_stack"
+  namespace_prefix: "bifrost"
+  # Environment variables (will be set when running Bifrost)
+  environment:
+    USD_INSTALL_DIR: ""  # Leave empty to use system default
+    PXR_PLUGINPATH_NAME: ""  # Additional plugin paths
+
+# OpenAssetIO configuration
+assetio:
+  enabled: true
+  manager: "org.bifrost.assetmanager"
+  fallback_manager: "org.openassetio.test.manager"
+  host_name: "Bifrost Asset Manager"
+  host_version: "0.1.0"
+  # URI scheme for Bifrost assets
+  uri_scheme: "bifrost"
+  # Environment variables (will be set when running Bifrost)
+  environment:
+    OPENASSETIO_PLUGIN_PATH: ""  # Leave empty to use system default

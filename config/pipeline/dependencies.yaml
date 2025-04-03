@@ -1,0 +1,152 @@
+# Department Dependencies Configuration
+# Defines workflow relationships between departments
+
+departments:
+  - id: concept
+    name: "Concept Art"
+    requires: []
+    produces:
+      - type: "image"
+        format: ["jpg", "png", "psd"]
+        location: "published/{VERSION}/concept/"
+    
+  - id: modeling
+    name: "3D Modeling"
+    requires:
+      - department: "concept"
+        status: "approved"
+    produces:
+      - type: "model"
+        format: ["usd", "usdc", "obj", "fbx"]
+        location: "published/{VERSION}/modeling/"
+  
+  - id: texture
+    name: "Texturing"
+    requires:
+      - department: "modeling"
+        status: "approved"
+    produces:
+      - type: "texture"
+        format: ["jpg", "png", "exr", "tx"]
+        location: "published/{VERSION}/texture/"
+  
+  - id: shading
+    name: "Look Development"
+    requires:
+      - department: "modeling"
+        status: "approved"
+      - department: "texture"
+        status: "approved"
+    produces:
+      - type: "material"
+        format: ["usd", "usda", "usdc"]
+        location: "published/{VERSION}/shading/"
+  
+  - id: rigging
+    name: "Character Rigging"
+    requires:
+      - department: "modeling"
+        status: "approved"
+    produces:
+      - type: "rig"
+        format: ["usd", "usdc"]
+        location: "published/{VERSION}/rigging/"
+  
+  - id: layout
+    name: "Layout"
+    requires: []
+    produces:
+      - type: "layout"
+        format: ["usd", "usdc"]
+        location: "published/{VERSION}/layout/"
+  
+  - id: animation
+    name: "Animation"
+    requires:
+      - department: "rigging"
+        status: "approved"
+      - department: "layout"
+        status: "approved"
+    produces:
+      - type: "animation"
+        format: ["usd", "usdc"]
+        location: "published/{VERSION}/animation/"
+  
+  - id: fx
+    name: "FX"
+    requires:
+      - department: "animation"
+        status: "approved"
+    produces:
+      - type: "fx"
+        format: ["usd", "usdc", "vdb"]
+        location: "published/{VERSION}/fx/"
+  
+  - id: lighting
+    name: "Lighting"
+    requires:
+      - department: "animation"
+        status: "approved"
+      - department: "shading"
+        status: "approved"
+    produces:
+      - type: "lighting"
+        format: ["usd", "usdc"]
+        location: "published/{VERSION}/lighting/"
+  
+  - id: rendering
+    name: "Rendering"
+    requires:
+      - department: "lighting"
+        status: "approved"
+    produces:
+      - type: "render"
+        format: ["exr"]
+        location: "output/renders/{VERSION}/"
+  
+  - id: comp
+    name: "Compositing"
+    requires:
+      - department: "rendering"
+        status: "approved"
+    produces:
+      - type: "comp"
+        format: ["exr", "mov"]
+        location: "published/{VERSION}/comp/"
+
+# Define project-specific workflows
+workflows:
+  default:
+    asset_types:
+      character:
+        sequence: ["concept", "modeling", "texture", "shading", "rigging"]
+      prop:
+        sequence: ["concept", "modeling", "texture", "shading"]
+      environment:
+        sequence: ["concept", "modeling", "texture", "shading"]
+      vehicle:
+        sequence: ["concept", "modeling", "texture", "shading", "rigging"]
+    
+    shot_types:
+      standard:
+        sequence: ["layout", "animation", "lighting", "rendering", "comp"]
+      vfx_heavy:
+        sequence: ["layout", "animation", "fx", "lighting", "rendering", "comp"]
+      full_cg:
+        sequence: ["layout", "animation", "fx", "lighting", "rendering", "comp"]
+  
+  # Lightweight workflow for smaller projects
+  lightweight:
+    asset_types:
+      character:
+        sequence: ["modeling", "texture", "rigging"]
+      prop:
+        sequence: ["modeling", "texture"]
+      environment:
+        sequence: ["modeling", "texture"]
+    
+    shot_types:
+      standard:
+        sequence: ["layout", "animation", "lighting", "comp"]
+      simple:
+        sequence: ["animation", "comp"]

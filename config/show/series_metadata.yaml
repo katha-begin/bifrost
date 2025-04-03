@@ -1,0 +1,104 @@
+# Series Metadata Configuration
+# Defines episodic series structure
+
+series:
+  name: "Cosmic Adventures"
+  code: "CA"
+  
+  # Series-level numbering configuration
+  numbering:
+    episode_pattern: "E{number:02d}"  # E01, E02, etc.
+    sequence_pattern: "SQ{number:03d}"  # SQ001, SQ002, etc.
+    shot_pattern: "SH{number:04d}"  # SH0010, SH0020, etc.
+    shot_increment: 10  # Shots increment by 10
+    
+  # Define episodes
+  episodes:
+    - id: "E01"
+      name: "Pilot"
+      code: "CA_E01"
+      sequences:
+        - id: "SQ001"
+          name: "Opening"
+          shot_count: 12
+        - id: "SQ002"
+          name: "Introduction"
+          shot_count: 15
+        - id: "SQ003"
+          name: "Climax"
+          shot_count: 8
+        - id: "SQ004"
+          name: "Resolution"
+          shot_count: 6
+          
+    - id: "E02"
+      name: "The Journey Begins"
+      code: "CA_E02"
+      sequences:
+        - id: "SQ001"
+          name: "Recap"
+          shot_count: 5
+        - id: "SQ002"
+          name: "Launch"
+          shot_count: 22
+        - id: "SQ003"
+          name: "Discovery"
+          shot_count: 17
+        - id: "SQ004"
+          name: "Conflict"
+          shot_count: 13
+          
+    - id: "E03"
+      name: "Unexpected Allies"
+      code: "CA_E03"
+      sequences:
+        - id: "SQ001"
+          name: "Recap"
+          shot_count: 4
+        - id: "SQ002"
+          name: "Encounter"
+          shot_count: 16
+        - id: "SQ003"
+          name: "Alliance"
+          shot_count: 12
+        - id: "SQ004"
+          name: "Resolution"
+          shot_count: 10
+          
+  # Define shared elements across episodes
+  shared_elements:
+    - type: "character"
+      name: "Hero"
+      id: "CA_CHAR_HERO"
+      applies_to: ["E01", "E02", "E03"]
+    - type: "character"
+      name: "Sidekick"
+      id: "CA_CHAR_SIDE"
+      applies_to: ["E01", "E02", "E03"]
+    - type: "environment"
+      name: "Space Station"
+      id: "CA_ENV_STATION"
+      applies_to: ["E01", "E02"]
+    - type: "environment"
+      name: "Alien Planet"
+      id: "CA_ENV_PLANET"
+      applies_to: ["E02", "E03"]
+    - type: "prop"
+      name: "Spaceship"
+      id: "CA_PROP_SHIP"
+      applies_to: ["E01", "E02", "E03"]
+    
+  # Post-production requirements
+  deliverables:
+    - name: "Broadcast Master"
+      format: "ProRes 4444"
+      resolution: "1920x1080"
+      frame_rate: 24
+    - name: "Online Streaming"
+      format: "H.264"
+      resolution: "1920x1080"
+      frame_rate: 24
+    - name: "Archive"
+      format: "DPX Sequence"
+      resolution: "3840x2160"
+      frame_rate: 24

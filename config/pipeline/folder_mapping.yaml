@@ -1,0 +1,48 @@
+# Folder Mapping Configuration
+# Defines the folder structure mapping between different studios
+
+studio_mappings:
+  # Main studio (reference structure)
+  main_studio:
+    # Asset paths
+    asset_published_path: "${project.root_path}/${folder_structure.published_root}/assets/{ASSET_TYPE}/{ASSET_NAME}/{VERSION}/{DEPARTMENT}/"
+    asset_work_path: "${project.root_path}/${folder_structure.work_root}/assets/{ASSET_TYPE}/{ASSET_NAME}/{DEPARTMENT}/{USER}/"
+    
+    # Shot paths
+    shot_published_path: "${project.root_path}/${folder_structure.published_root}/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{VERSION}/{DEPARTMENT}/"
+    shot_work_path: "${project.root_path}/${folder_structure.work_root}/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{DEPARTMENT}/{USER}/"
+    
+    # Output paths
+    render_path: "${project.root_path}/${folder_structure.output_root}/renders/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{VERSION}/{LAYER}/"
+    cache_path: "${project.root_path}/${folder_structure.output_root}/cache/{CACHE_TYPE}/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/"
+    deliverable_path: "${project.root_path}/${folder_structure.output_root}/deliverables/{SERIES}/{EPISODE}/{DELIVERABLE_TYPE}/"
+    
+  # Partner studio (different structure example)
+  partner_studio:
+    # Asset paths (different organization)
+    asset_published_path: "P:/projects/{PROJECT}/assets/pub/{ASSET_NAME}/{DEPARTMENT}/{VERSION}/"
+    asset_work_path: "P:/projects/{PROJECT}/assets/dev/{USER}/{ASSET_NAME}/{DEPARTMENT}/"
+    
+    # Shot paths (different organization)
+    shot_published_path: "P:/projects/{PROJECT}/shots/pub/{SEQUENCE}_{SHOT}/{DEPARTMENT}/{VERSION}/"
+    shot_work_path: "P:/projects/{PROJECT}/shots/dev/{USER}/{SEQUENCE}_{SHOT}/{DEPARTMENT}/"
+    
+    # Output paths
+    render_path: "P:/projects/{PROJECT}/renders/{SEQUENCE}_{SHOT}/{VERSION}/{LAYER}/"
+    cache_path: "P:/projects/{PROJECT}/cache/{CACHE_TYPE}/{SEQUENCE}_{SHOT}/"
+    deliverable_path: "P:/projects/{PROJECT}/deliverables/{DELIVERABLE_TYPE}/"
+    
+  # Remote studio (cloud-focused structure)
+  remote_studio:
+    # Asset paths
+    asset_published_path: "/mnt/cloud/{PROJECT}/pub/assets/{ASSET_TYPE}/{ASSET_NAME}.{VERSION}.{DEPARTMENT}"
+    asset_work_path: "/home/{USER}/work/{PROJECT}/assets/{ASSET_TYPE}/{ASSET_NAME}/{DEPARTMENT}/"
+    
+    # Shot paths
+    shot_published_path: "/mnt/cloud/{PROJECT}/pub/shots/{SERIES}/{EPISODE}/{SEQUENCE}.{SHOT}.{VERSION}.{DEPARTMENT}"
+    shot_work_path: "/home/{USER}/work/{PROJECT}/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{DEPARTMENT}/"
+    
+    # Output paths
+    render_path: "/mnt/cloud/{PROJECT}/renders/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{VERSION}/{LAYER}/"
+    cache_path: "/mnt/cloud/{PROJECT}/cache/{CACHE_TYPE}/{SEQUENCE}/{SHOT}/"
+    deliverable_path: "/mnt/cloud/{PROJECT}/deliverables/{DELIVERABLE_TYPE}/"
