@@ -13,68 +13,204 @@ ProjectName/                           # Project root directory
 │   └── logs/                          # Project-specific logs
 │
 ├── published/                         # Published content
-│   ├── assets/                        # Published assets
+│   ├── asset/                         # Published assets
 │   │   ├── characters/                # Asset type: characters
 │   │   │   ├── hero/                  # Asset: hero character
-│   │   │   │   ├── v001/              # Version 001
-│   │   │   │   │   ├── model/         # Department: modeling
-│   │   │   │   │   │   ├── hero.usd   # USD file
-│   │   │   │   │   │   └── metadata.json # Metadata
-│   │   │   │   │   │
-│   │   │   │   │   ├── rig/           # Department: rigging
-│   │   │   │   │   │   ├── hero.usd   # USD file
-│   │   │   │   │   │   └── metadata.json # Metadata
-│   │   │   │   │   │
-│   │   │   │   │   ├── texture/       # Department: texturing
-│   │   │   │   │   │   ├── hero.usd   # USD file
-│   │   │   │   │   │   ├── textures/  # Texture files
-│   │   │   │   │   │   └── metadata.json # Metadata
-│   │   │   │   │   │
-│   │   │   │   │   └── cache/         # Asset caches
-│   │   │   │   │       ├── cloth.abc  # Cloth simulation
-│   │   │   │   │       ├── fur.abc    # Fur simulation
-│   │   │   │   │       └── metadata.json # Cache metadata
+│   │   │   │   ├── model/             # Department: modeling
+│   │   │   │   │   ├── version/       # Versioning directory
+│   │   │   │   │   │   ├── v001/      # Version 001
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   ├── v002/      # Version 002
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   │
+│   │   │   │   │   │   └── v003/      # Version 003
 │   │   │   │   │
-│   │   │   │   ├── v002/              # Version 002
-│   │   │   │   └── v003/              # Version 003
+│   │   │   │   ├── asset/             # General asset directory
+│   │   │   │   │   ├── version/       # Versioning directory
+│   │   │   │   │   │   ├── v001/      # Version 001
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   ├── v002/      # Version 002
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   │
+│   │   │   │   │   │   └── v003/      # Version 003
+│   │   │   │   │
+│   │   │   │   ├── rig/               # Department: rigging
+│   │   │   │   │   ├── version/       # Versioning directory
+│   │   │   │   │   │   ├── v001/      # Version 001
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   │
+│   │   │   │   │   │   └── v002/      # Version 002
+│   │   │   │   │
+│   │   │   │   └── texture/           # Department: texturing
+│   │   │   │       ├── version/       # Versioning directory
+│   │   │   │       │   ├── v001/      # Version 001
+│   │   │   │       │   │   ├── asset.usd    # Main asset file
+│   │   │   │       │   │   ├── payload.usd  # Payload data
+│   │   │   │       │   │   └── metadata.json    # Metadata
+│   │   │   │       │   │
+│   │   │   │       │   └── v002/      # Version 002
 │   │   │   │
 │   │   │   └── villain/               # Asset: villain character
-│   │   │       ├── v001/              # Version 001
-│   │   │       └── ...
+│   │   │       ├── model/             # Department: modeling
+│   │   │       │   ├── version/       # Versioning directory
+│   │   │       │   │   ├── v001/      # Version 001
+│   │   │       │   │   │   ├── asset.usd    # Main asset file
+│   │   │       │   │   │   ├── payload.usd  # Payload data
+│   │   │       │   │   │   └── metadata.json    # Metadata
+│   │   │       │   │   │
+│   │   │       │   │   └── v002/      # Version 002
+│   │   │       │
+│   │   │       └── asset/             # General asset directory
+│   │   │           ├── version/       # Versioning directory
+│   │   │           │   ├── v001/      # Version 001
+│   │   │           │   │   ├── asset.usd    # Main asset file
+│   │   │           │   │   ├── payload.usd  # Payload data
+│   │   │           │   │   └── metadata.json    # Metadata
+│   │   │           │   │
+│   │   │           │   └── v002/      # Version 002
 │   │   │
 │   │   ├── environments/              # Asset type: environments
 │   │   │   ├── forest/                # Asset: forest environment
-│   │   │   │   ├── v001/              # Version 001
-│   │   │   │   └── ...
+│   │   │   │   ├── model/             # Department: modeling
+│   │   │   │   │   ├── version/       # Versioning directory
+│   │   │   │   │   │   ├── v001/      # Version 001
+│   │   │   │   │   │   │   ├── asset.usd    # Main asset file
+│   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│   │   │   │   │   │   │   └── metadata.json    # Metadata
+│   │   │   │   │   │   │
+│   │   │   │   │   │   └── v002/      # Version 002
+│   │   │   │   │
+│   │   │   │   └── asset/             # General asset directory
+│   │   │   │       ├── version/       # Versioning directory
+│   │   │   │       │   ├── v001/      # Version 001
+│   │   │   │       │   │   ├── asset.usd    # Main asset file
+│   │   │   │       │   │   ├── payload.usd  # Payload data
+│   │   │   │       │   │   └── metadata.json    # Metadata
+│   │   │   │       │   │
+│   │   │   │       │   └── v002/      # Version 002
 │   │   │   │
 │   │   │   └── city/                  # Asset: city environment
-│   │   │       ├── v001/              # Version 001
-│   │   │       └── ...
+│   │   │       ├── model/             # Department: modeling
+│   │   │       │   └── version/       # Versioning directory
+│   │   │       │       └── v001/      # Version 001
+│   │   │       │
+│   │   │       └── asset/             # General asset directory
+│   │   │           └── version/       # Versioning directory
+│   │   │               └── v001/      # Version 001
 │   │   │
 │   │   └── props/                     # Asset type: props
 │   │       ├── sword/                 # Asset: sword prop
+│   │       │   ├── model/             # Department: modeling
+│   │       │   │   └── version/       # Versioning directory
+│   │       │   │       └── v001/      # Version 001
+│   │       │   │
+│   │       │   └── asset/             # General asset directory
+│   │       │       └── version/       # Versioning directory
+│   │       │           └── v001/      # Version 001
+│   │       │
 │   │       └── ...
 │   │
-│   └── shots/                         # Published shots
+│   └── shot/                          # Published shots
 │       ├── s01/                       # Series (or show) 01
 │       │   ├── ep01/                  # Episode 01
 │       │   │   ├── seq001/            # Sequence 001
+│       │   │   │   ├── master/                         # seq master data
+│       │   │   │   │   ├── version/                    # Versioning directory
+│       │   │   │   │   │   ├── v001/                   # Version 001
+│       │   │   │   │   │   │   ├── seq.usd             # Main seq config usd fle
+│       │   │   │   │   │   │   └── metadata.json       # Metadata
+│       │   │   │   │   │   │
+│       │   │   │   │   │   └── v002/     # Version 002
+│       │   │   │   │   │       ├── seq.usd    # Main animation file
+│       │   │   │   │   │       ├── payload.usd  # Payload data
+│       │   │   │   │   │       └── metadata.json    # Metadata
 │       │   │   │   ├── shot010/       # Shot 010
-│       │   │   │   │   ├── v001/      # Version 001
-│       │   │   │   │   │   ├── anim/  # Department: animation
-│       │   │   │   │   │   ├── comp/  # Department: compositing
-│       │   │   │   │   │   └── cache/ # Shot caches
+│       │   │   │   │   ├── anim/       # Department: animation
+│       │   │   │   │   │   ├── version/  # Versioning directory
+│       │   │   │   │   │   │   ├── v001/     # Version 001
+│       │   │   │   │   │   │   │   ├── anim.usd     # Main animation file
+│       │   │   │   │   │   │   │   ├── payload.usd  # Payload data
+│       │   │   │   │   │   │   │   └── metadata.json    # Metadata
+│       │   │   │   │   │   │   │
+│       │   │   │   │   │   │   └── v002/     # Version 002
+│       │   │   │   │   │   │       ├── anim.usd    # Main animation file
+│       │   │   │   │   │   │       ├── payload.usd  # Payload data
+│       │   │   │   │   │   │       └── metadata.json    # Metadata
+│       │   │   │   │   │   │
+│       │   │   │   │   │   └── cache/     # Cache directory
 │       │   │   │   │   │       ├── fx.abc      # FX simulation cache
 │       │   │   │   │   │       ├── hair.vdb    # Hair volume cache
-│       │   │   │   │   │       └── metadata.json # Cache metadata
+│       │   │   │   │   │       └── metadata.json   # Cache metadata
 │       │   │   │   │   │
-│       │   │   │   │   └── v002/      # Version 002
+│       │   │   │   │   ├── comp/       # Department: compositing
+│       │   │   │   │   │   ├── version/  # Versioning directory
+│       │   │   │   │   │   │   ├── v001/     # Version 001
+│       │   │   │   │   │   │   │   ├── comp.nk      # Main composite file
+│       │   │   │   │   │   │   │   └── metadata.json    # Metadata
+│       │   │   │   │   │   │   │
+│       │   │   │   │   │   │   └── v002/     # Version 002
+│       │   │   │   │   │
+│       │   │   │   │   ├── fx/         # Department: effects
+│       │   │   │   │   │   ├── version/  # Versioning directory
+│       │   │   │   │   │   │   ├── v001/     # Version 001
+│       │   │   │   │   │   │   │   ├── fx.usd    # Main fx file
+│       │   │   │   │   │   │   │   └── metadata.json    # Metadata
+│       │   │   │   │   │   │   │
+│       │   │   │   │   │   │   └── v002/     # Version 002
+│       │   │   │   │   |   └── cache/     # Cache directory
+│       │   │   │   │   |       ├── fx.abc      # FX simulation cache
+│       │   │   │   │   |       ├── hair.vdb    # Hair volume cache
+│       │   │   │   │   |       └── metadata.json   # Cache metadata
+│       │   │   │   │   └── master/              # General shot directory
+│       │   │   │   │       ├── version/  # Versioning directory
+│       │   │   │   │       │   ├── v001/     # Version 001
+│       │   │   │   │       │   │   ├──shot.usd   # Main shot config usd
+│       │   │   │   │       │   │   └── metadata.json    # Metadata
+│       │   │   │   │       │   └── v002/     # Version 002
+│       │   │   │   │       │
+│       │   │   │   │       └── cache/     # Cache directory
+│       │   │   │   │           ├── fx.abc      # FX simulation cache
+│       │   │   │   │           ├── hair.vdb    # Hair volume cache
+│       │   │   │   │           └── meta.json   # Cache metadata
 │       │   │   │   │
 │       │   │   │   ├── shot020/       # Shot 020
+│       │   │   │   │   ├── anim/       # Department: animation
+│       │   │   │   │   │   └── version/  # Versioning directory
+│       │   │   │   │   │       └── v001/     # Version 001
+│       │   │   │   │   │
+│       │   │   │   │   └── shot/       # General shot directory
+│       │   │   │   │       └── version/  # Versioning directory
+│       │   │   │   │           └── v001/     # Version 001
+│       │   │   │   │
 │       │   │   │   └── shot030/       # Shot 030
+│       │   │   │       ├── anim/       # Department: animation
+│       │   │   │       │   └── version/  # Versioning directory
+│       │   │   │       │       └── v001/     # Version 001
+│       │   │   │       │
+│       │   │   │       └── shot/       # General shot directory
+│       │   │   │           └── version/  # Versioning directory
+│       │   │   │               └── v001/     # Version 001
 │       │   │   │
 │       │   │   └── seq002/            # Sequence 002
 │       │   │       ├── shot010/       # Shot 010
+│       │   │       │   ├── anim/       # Department: animation
+│       │   │       │   │   └── version/  # Versioning directory
+│       │   │       │   │       └── v001/     # Version 001
+│       │   │       │   │
+│       │   │       │   └── shot/       # General shot directory
+│       │   │       │       └── version/  # Versioning directory
+│       │   │       │           └── v001/     # Version 001
+│       │   │       │
 │       │   │       └── ...
 │       │   │
 │       │   └── ep02/                  # Episode 02
@@ -148,15 +284,46 @@ ProjectName/                           # Project root directory
 │   │   │   ├── ep01/                  # Episode 01
 │   │   │   │   ├── seq001/            # Sequence 001
 │   │   │   │   │   ├── shot010/       # Shot 010
-│   │   │   │   │   │   ├── v001/      # Version 001
-│   │   │   │   │   │   │   ├── beauty/ # Beauty layer
-│   │   │   │   │   │   │   ├── depth/  # Depth layer
-│   │   │   │   │   │   │   └── ...     # Other render layers
+│   │   │   │   │   │   ├── comp/       # Department: compositing
+│   │   │   │   │   │   │   ├── version/  # Versioning directory
+│   │   │   │   │   │   │   │   ├── v001/     # Version 001
+│   │   │   │   │   │   │   │   │   ├── beauty/    # Beauty layer
+│   │   │   │   │   │   │   │   │   ├── depth/     # Depth layer
+│   │   │   │   │   │   │   │   │   └── ...        # Other render layers
+│   │   │   │   │   │   │   │   │
+│   │   │   │   │   │   │   │   └── v002/     # Version 002
+│   │   │   │   │   │   │   │       ├── beauty/    # Beauty layer
+│   │   │   │   │   │   │   │       └── depth/     # Depth layer
+│   │   │   │   │   │   │   │
+│   │   │   │   │   │   │   └── cache/     # Cache directory
 │   │   │   │   │   │   │
-│   │   │   │   │   │   └── v002/      # Version 002
-│   │   │   │   │   │       └── ...
+│   │   │   │   │   │   ├── lighting/   # Department: lighting
+│   │   │   │   │   │   │   ├── version/  # Versioning directory
+│   │   │   │   │   │   │   │   ├── v001/     # Version 001
+│   │   │   │   │   │   │   │   │   ├── beauty/    # Beauty layer
+│   │   │   │   │   │   │   │   │   └── specular/  # Specular layer
+│   │   │   │   │   │   │   │   │
+│   │   │   │   │   │   │   │   └── v002/     # Version 002
+│   │   │   │   │   │   │
+│   │   │   │   │   │   └── render/     # Department: rendering
+│   │   │   │   │   │       ├── version/  # Versioning directory
+│   │   │   │   │   │       │   ├── v001/     # Version 001
+│   │   │   │   │   │       │   │   ├── beauty/    # Beauty layer
+│   │   │   │   │   │       │   │   ├── depth/     # Depth layer
+│   │   │   │   │   │       │   │   └── normal/    # Normal layer
+│   │   │   │   │   │       │   │
+│   │   │   │   │   │       │   └── v002/     # Version 002
+│   │   │   │   │   │       │
+│   │   │   │   │   │       └── cache/     # Cache directory
 │   │   │   │   │   │
-│   │   │   │   │   └── ...
+│   │   │   │   │   └── shot020/       # Shot 020
+│   │   │   │   │       ├── comp/       # Department: compositing
+│   │   │   │   │       │   ├── version/  # Versioning directory
+│   │   │   │   │       │   │   └── v001/     # Version 001
+│   │   │   │   │       │
+│   │   │   │   │       └── render/     # Department: rendering
+│   │   │   │   │           └── version/  # Versioning directory
+│   │   │   │   │               └── v001/     # Version 001
 │   │   │   │   │
 │   │   │   │   └── ...
 │   │   │   │
@@ -213,14 +380,14 @@ ProjectName/                           # Project root directory
 In the Bifrost system, cache data is handled in multiple locations:
 
 1. **Published Caches**
-   - Location: `published/assets/{ASSET_TYPE}/{ASSET_NAME}/{VERSION}/cache/` and  
+   - Location: `published/assets/{ASSET_TYPE}/{ASSET_NAME}/{VERSION}/cache/` and
      `published/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{VERSION}/cache/`
    - Purpose: Final, approved cache files that are part of the published asset/shot
    - Includes: Simulation caches (alembic, vdb), hair, cloth, fx, etc.
    - These are versioned and tracked like other published content
 
 2. **Working Caches**
-   - Location: `work/assets/{ASSET_TYPE}/{ASSET_NAME}/cache/{USER}/` and  
+   - Location: `work/assets/{ASSET_TYPE}/{ASSET_NAME}/cache/{USER}/` and
      `work/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/fx/{USER}/cache/`
    - Purpose: Work-in-progress simulation caches by individual artists
    - These are typically not versioned in the same way as published content
@@ -261,7 +428,7 @@ studio_mappings:
     # Add a specific path for published caches
     asset_published_cache_path: "${project.root_path}/${folder_structure.published_root}/assets/{ASSET_TYPE}/{ASSET_NAME}/{VERSION}/cache/{CACHE_TYPE}/"
     shot_published_cache_path: "${project.root_path}/${folder_structure.published_root}/shots/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/{VERSION}/cache/{CACHE_TYPE}/"
-    
+
     # Keep the working/intermediate cache path
     cache_path: "${project.root_path}/${folder_structure.output_root}/cache/{CACHE_TYPE}/{SERIES}/{EPISODE}/{SEQUENCE}/{SHOT}/"
 ```

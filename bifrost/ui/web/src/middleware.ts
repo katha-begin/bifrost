@@ -16,7 +16,7 @@ const PUBLIC_PATHS = [
 
 // Helper function to check if the path is public
 const isPublicPath = (path: string) =>
-  PUBLIC_PATHS.some(publicPath => 
+  PUBLIC_PATHS.some(publicPath =>
     path.startsWith(publicPath) || path.startsWith(`/api${publicPath}`)
   );
 
@@ -25,11 +25,12 @@ export async function middleware(request: NextRequest) {
 
   // Allow access to public files and paths
   if (
-    path.startsWith('/_next') || 
+    path.startsWith('/_next') ||
     path.startsWith('/static') ||
     path.startsWith('/api/public') ||
     path.includes('.') ||
-    isPublicPath(path)
+    isPublicPath(path) ||
+    path === '/' // Allow direct access to the main page
   ) {
     return NextResponse.next();
   }
@@ -37,10 +38,10 @@ export async function middleware(request: NextRequest) {
   // Check for auth token
   const token = request.cookies.get('auth_token');
 
-  // Redirect to login if no token is present
+  // Redirect to static login page if no token is present
   if (!token) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('from', request.nextUrl.pathname);
+    // Use the static HTML login page instead of the React component
+    const loginUrl = new URL('/static-login.html', request.url);
     return NextResponse.redirect(loginUrl);
   }
 

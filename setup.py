@@ -1,5 +1,13 @@
 #!/usr/bin/env python
+import os
 from setuptools import setup, find_packages
+
+long_description = ""
+if os.path.exists("README.md"):
+    with open("README.md", "r", encoding="utf-8") as f:
+        long_description = f.read()
+else:
+    long_description = "Bifrost Animation Asset Management System for production pipelines."
 
 setup(
     name="bifrost-pipeline",
@@ -18,7 +26,7 @@ setup(
         "uvicorn>=0.15.0",
         "pydantic>=1.8.2",
         "python-dotenv>=0.19.0",
-        "uuid>=1.30",
+        # Removed uuid as it is part of Python's standard library
         # OpenUSD dependency
         "usd-core>=23.11.0",
     ],
@@ -43,17 +51,8 @@ setup(
             "sphinx>=4.2.0",
             "sphinx-rtd-theme>=1.0.0",
         ],
-        # For custom USD builds from source
-        "usd-dev": [
-            "cmake>=3.24.0",
-            "ninja>=1.10.0",
-        ],
-        # For custom OpenAssetIO builds from source
-        "assetio-dev": [
-            "cmake>=3.24.0",
-            "ninja>=1.10.0",
-        ],
-        "openassetio": ["openassetio>=1.0.0b1"],
+        # OpenAssetIO integration
+        "openassetio": ["openassetio>=1.0.0-rc.2"],
     },
     
     # Entry points
@@ -67,7 +66,7 @@ setup(
     author="Bifrost Team",
     author_email="example@example.com",
     description="Animation Asset Management System for production pipelines",
-    long_description=open("README.md").read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     keywords="animation, asset management, production pipeline, openusd, openassetio",
     url="https://github.com/your-organization/bifrost",

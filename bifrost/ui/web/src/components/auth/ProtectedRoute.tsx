@@ -16,14 +16,14 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [isValidating, setIsValidating] = useState(true);
 
   useEffect(() => {
-    const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password'];
+    const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password', '/logout'];
     const isPublicPath = publicPaths.some(path => pathname?.startsWith(path));
 
     const validateAuth = async () => {
       try {
         if (!token && !isPublicPath) {
           router.push(`/login?returnUrl=${encodeURIComponent(pathname || '/')}`);
-        } else if (token && isPublicPath) {
+        } else if (token && isPublicPath && pathname !== '/logout') {
           router.push('/');
         }
       } finally {
@@ -44,10 +44,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   // For public routes, always render children
-  if (pathname?.startsWith('/login') || 
-      pathname?.startsWith('/register') || 
+  if (pathname?.startsWith('/login') ||
+      pathname?.startsWith('/register') ||
       pathname?.startsWith('/forgot-password') ||
-      pathname?.startsWith('/reset-password')) {
+      pathname?.startsWith('/reset-password') ||
+      pathname?.startsWith('/logout')) {
     return <>{children}</>;
   }
 

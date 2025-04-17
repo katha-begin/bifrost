@@ -19,7 +19,7 @@ folder_structure:
 # Database configuration
 database:
   type: sqlite  # Options: sqlite, postgresql
-  path: data/bifrost.db
+  path: "D:/ppr/AI/bifrost/data/bifrost.db"  # Using absolute path
   # For future PostgreSQL support:
   # host: localhost
   # port: 5432
@@ -129,12 +129,54 @@ usd:
 # OpenAssetIO configuration
 assetio:
   enabled: true
-  manager: "org.bifrost.assetmanager"
-  fallback_manager: "org.openassetio.test.manager"
-  host_name: "Bifrost Asset Manager"
-  host_version: "0.1.0"
-  # URI scheme for Bifrost assets
-  uri_scheme: "bifrost"
-  # Environment variables (will be set when running Bifrost)
+  # Manager configuration
+  manager:
+    identifier: "org.bifrost.manager"
+    display_name: "Bifrost Asset Manager"
+    settings:
+      version: "1.0.0rc1.post1"
+      host_interface_version: "1.0.0rc1.post1"
+      policy:
+        mode: "strict"  # or "relaxed"
+        resolve_timeout_ms: 5000
+      entity_reference:
+        prefix: "bifrost:///"
+        case_sensitive: false
+  
+  # Host registration
+  host:
+    identifier: "org.bifrost.pipeline"
+    display_name: "Bifrost Pipeline"
+    settings:
+      version: "1.0.0rc1.post1"
+      host_interface_version: "1.0.0rc1.post1"
+  
+  # Entity reference patterns
+  entity_references:
+    patterns:
+      asset: "bifrost:///assets/{entityId}"
+      shot: "bifrost:///shots/{entityId}"
+      review: "bifrost:///reviews/{entityId}"
+      version: "bifrost:///versions/{entityId}"
+  
+  # Trait sets configuration
+  traits:
+    defaults:
+      - "openassetio-mediacreation:1.0"
+    custom_suite:
+      identifier: "org.bifrost.traits"
+      version: "1.0.0"
+  
+  # Manager interface configuration
+  interface:
+    locale: "en_US"
+    batch_size_limit: 1000
+    wildcard_support: true
+  
+  # Environment configuration
   environment:
-    OPENASSETIO_PLUGIN_PATH: ""  # Leave empty to use system default
+    OPENASSETIO_PLUGIN_PATH: "${project.root_path}/plugins/openassetio"
+    OPENASSETIO_DEBUG_LOGGING: "0"  # Set to "1" for debug logging
+    OPENASSETIO_LOGGING_SEVERITY: "info"  # Options: debug, info, warning, error
+    OPENASSETIO_DEFAULT_CONFIG: "${project.root_path}/config/openassetio.toml"
+    OPENASSETIO_RESOLVER_PATH: "${project.root_path}/plugins/resolvers"

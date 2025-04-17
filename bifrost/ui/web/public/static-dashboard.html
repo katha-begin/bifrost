@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bifrost Dashboard</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      color: #111827;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1f2937;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    
+    .username {
+      margin-right: 16px;
+    }
+    
+    .logout-btn {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    h1 {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    
+    .stat {
+      font-size: 36px;
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 8px;
+    }
+    
+    .stat-label {
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .activity-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-name {
+      font-weight: 500;
+      color: #111827;
+    }
+    
+    .activity-type {
+      font-size: 14px;
+      color: #6b7280;
+    }
+    
+    .activity-date {
+      font-size: 14px;
+      color: #6b7280;
+      background-color: #f3f4f6;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">Bifrost</div>
+      <div class="user-info">
+        <div class="username">Welcome, <span id="username">Developer</span></div>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+      <h1>Production Overview</h1>
+      
+      <div class="grid">
+        <!-- Assets Card -->
+        <div class="card">
+          <h2>Assets</h2>
+          <p class="stat">5</p>
+          <p class="stat-label">Total Assets</p>
+          <button class="btn">View All Assets</button>
+        </div>
+        
+        <!-- Shots Card -->
+        <div class="card">
+          <h2>Shots</h2>
+          <p class="stat">5</p>
+          <p class="stat-label">Total Shots</p>
+          <button class="btn">View All Shots</button>
+        </div>
+      </div>
+      
+      <!-- Recent Activity -->
+      <div class="card">
+        <h2>Recent Activity</h2>
+        
+        <div id="activity-list">
+          <!-- Activity items will be inserted here -->
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // Mock activity data
+    const activities = [
+      { id: 1, name: 'Character - Hero', type: 'Asset updated', date: '2023-10-05' },
+      { id: 2, name: 'Environment - Forest', type: 'Asset updated', date: '2023-10-10' },
+      { id: 3, name: 'Prop - Magic Sword', type: 'Asset updated', date: '2023-10-12' },
+      { id: 4, name: 'Vehicle - Spaceship', type: 'Asset updated', date: '2023-10-08' },
+      { id: 5, name: 'Character - Villain', type: 'Asset updated', date: '2023-10-07' }
+    ];
+    
+    // Try to get user from localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      // Try to get username from localStorage
+      try {
+        const storedUser = localStorage.getItem('bifrost_user');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          document.getElementById('username').textContent = user.username || 'Developer';
+        }
+      } catch (e) {
+        console.error('Failed to parse user from localStorage', e);
+      }
+      
+      // Populate activity list
+      const activityList = document.getElementById('activity-list');
+      activities.forEach(item => {
+        const activityItem = document.createElement('div');
+        activityItem.className = 'activity-item';
+        activityItem.innerHTML = `
+          <div>
+            <p class="activity-name">${item.name}</p>
+            <p class="activity-type">${item.type}</p>
+          </div>
+          <span class="activity-date">${item.date}</span>
+        `;
+        activityList.appendChild(activityItem);
+      });
+      
+      // Add logout functionality
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        // Clear authentication
+        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        localStorage.removeItem('bifrost_auth_token');
+        localStorage.removeItem('bifrost_user');
+        localStorage.removeItem('bifrost_auth_state');
+        
+        // Redirect to login
+        window.location.href = '/static-login.html';
+      });
+    });
+  </script>
+</body>
+</html>

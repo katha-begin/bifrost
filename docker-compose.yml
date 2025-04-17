@@ -6,31 +6,13 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_TYPE=postgresql
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
-      - DATABASE_NAME=bifrost
-      - DATABASE_USER=bifrost_user
-      - DATABASE_PASSWORD=changeme
       - JWT_SECRET=your-secret-key-here
-    depends_on:
-      - db
+      - DATABASE_TYPE=sqlite
+      - DATABASE_PATH=/app/data/bifrost.db
+      - BIFROST_ADMIN_USERNAME=admin
+      - BIFROST_ADMIN_EMAIL=admin@bifrost.local
+      - BIFROST_ADMIN_PASSWORD=changeme
     volumes:
       - ./data:/app/data
       - ./config:/app/config
     restart: unless-stopped
-
-  db:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=bifrost
-      - POSTGRES_USER=bifrost_user
-      - POSTGRES_PASSWORD=changeme
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-
-volumes:
-  postgres_data:
