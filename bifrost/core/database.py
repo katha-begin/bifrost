@@ -12,6 +12,9 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
 from .config import get_config
 
 # Setup logger
@@ -41,25 +44,23 @@ class DatabaseManager:
         if getattr(self, '_initialized', False):
             return
             
-        # Determine database path
-        self._db_path = None
-        if db_path:
-            self._db_path = Path(db_path)
-        else:
-            config_db_path = get_config('database.path')
-            if config_db_path:
-                # Get path from config
-                self._db_path = Path(config_db_path)
-            else:
-                # Use default path
-                self._db_path = Path(os.getcwd()) / 'data' / 'bifrost.db'
+        # Get database configuration
+        self.db_type = get_config('database.type', 'sqlite')
         
-        # Ensure directory exists
-        self._db_path.parent.mkdir(parents=True, exist_ok=True)
+        if self.db_type == 'sqlite':
+            db_path = get_config('database.path')
+            self._db_path = Path(db_path) if db_path else Path(os.getcwd()) / 'data' / 'bifrost.db'
+            self._db_path.parent.mkdir(parents=True, exist_ok=True)
+        else:
+            # PostgreSQL configuration
+            self.db_host = os.getenv('DATABASE_HOST') or get_config('database.host', 'localhost')
+            self.db_port = os.getenv('DATABASE_PORT') or get_config('database.port', 5432)
+            self.db_name = os.getenv('DATABASE_NAME') or get_config('database.name', 'bifrost')
+            self.db_user = os.getenv('DATABASE_USER') or get_config('database.user', 'bifrost_user')
+            self.db_password = os.getenv('DATABASE_PASSWORD') or get_config('database.password', '')
         
         # Initialize database
         self._initialize_database()
-        
         self._initialized = True
         
     def _initialize_database(self) -> None:
@@ -235,6 +236,53 @@ class DatabaseManager:
                 )
                 ''')
                 
+                # Reviews table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS reviews (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    description TEXT,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    completed_at TIMESTAMP,
+                    status TEXT NOT NULL,
+                    metadata TEXT
+                )
+                ''')
+                
+                # Review items
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS review_items (
+                    id TEXT PRIMARY KEY,
+                    review_id TEXT NOT NULL,
+                    item_id TEXT NOT NULL,
+                    item_type TEXT NOT NULL,
+                    version_id TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    preview_path TEXT,
+                    metadata TEXT,
+                    FOREIGN KEY (review_id) REFERENCES reviews (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Review notes
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS review_notes (
+                    id TEXT PRIMARY KEY,
+                    review_id TEXT NOT NULL,
+                    item_id TEXT NOT NULL,
+                    author TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    timestamp TIMESTAMP NOT NULL,
+                    frame INTEGER,
+                    timecode TEXT,
+                    status TEXT NOT NULL,
+                    metadata TEXT,
+                    attachments TEXT,
+                    FOREIGN KEY (review_id) REFERENCES reviews (id) ON DELETE CASCADE
+                )
+                ''')
+                
                 conn.commit()
                 logger.info("Database schema initialized successfully")
                 
@@ -247,11 +295,21 @@ class DatabaseManager:
         """Get a database connection with context management."""
         connection = None
         try:
-            connection = sqlite3.connect(
-                self._db_path,
-                detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
-            )
-            connection.row_factory = sqlite3.Row
+            if self.db_type == 'sqlite':
+                connection = sqlite3.connect(
+                    self._db_path,
+                    detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+                )
+                connection.row_factory = sqlite3.Row
+            else:
+                connection = psycopg2.connect(
+                    host=self.db_host,
+                    port=self.db_port,
+                    dbname=self.db_name,
+                    user=self.db_user,
+                    password=self.db_password,
+                    cursor_factory=RealDictCursor
+                )
             yield connection
         except Exception as e:
             logger.error(f"Database connection error: {e}")
@@ -265,10 +323,18 @@ class DatabaseManager:
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
+                
+                # Convert SQLite paramstyle (?) to PostgreSQL (%s) if needed
+                if self.db_type != 'sqlite':
+                    query = query.replace('?', '%s')
+                
                 cursor.execute(query, params)
                 
                 if query.strip().upper().startswith(('SELECT', 'PRAGMA')):
-                    results = [dict(row) for row in cursor.fetchall()]
+                    if self.db_type == 'sqlite':
+                        results = [dict(row) for row in cursor.fetchall()]
+                    else:
+                        results = cursor.fetchall()
                     return results
                 else:
                     conn.commit()
@@ -284,6 +350,9 @@ class DatabaseManager:
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
+                # Convert SQLite paramstyle (?) to PostgreSQL (%s) if needed
+                if self.db_type != 'sqlite':
+                    query = query.replace('?', '%s')
                 cursor.executemany(query, params_list)
                 conn.commit()
         except Exception as e:

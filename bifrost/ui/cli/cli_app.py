@@ -19,6 +19,8 @@ sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 from bifrost.core.config import config
 from bifrost.models.asset import AssetStatus, AssetType
 from bifrost.services.asset_service import asset_service
+from bifrost.services.review_service import review_service
+from bifrost.models.review import ReviewStatus, NoteStatus
 
 # Setup logger
 logging.basicConfig(level=logging.INFO)
@@ -391,6 +393,122 @@ def add_asset_dependency(asset_id, dependent_asset_id, type, optional):
 
 
 @cli.group()
+def review():
+    """Commands for managing reviews."""
+    pass
+
+@review.command("create")
+@click.option("--name", "-n", required=True, help="Name of the review session")
+@click.option("--description", "-d", default="", help="Description of the review")
+@click.option("--items", "-i", multiple=True, help="List of item IDs to review")
+def create_review(name: str, description: str, items: List[str]):
+    """Create a new review session."""
+    try:
+        review = review_service.create_review(
+            name=name,
+            description=description,
+            items=items
+        )
+        console.print(f"[green]Created review session: {review.id}[/green]")
+        console.print(f"Name: {review.name}")
+        console.print(f"Status: {review.status.value}")
+    except Exception as e:
+        console.print(f"[red]Error creating review: {str(e)}[/red]")
+        logger.exception("Error creating review")
+
+@review.command("show")
+@click.argument("review_id")
+def show_review(review_id: str):
+    """Show details of a specific review."""
+    try:
+        review = review_service.get_review(review_id)
+        if not review:
+            console.print(f"[yellow]Review not found: {review_id}[/yellow]")
+            return
+
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Field")
+        table.add_column("Value")
+        
+        table.add_row("ID", review.id)
+        table.add_row("Name", review.name)
+        table.add_row("Description", review.description)
+        table.add_row("Status", review.status.value)
+        table.add_row("Created", str(review.created_at))
+        table.add_row("Created by", review.created_by)
+        
+        console.print(table)
+        
+        if review.items:
+            console.print("\n[bold]Review Items:[/bold]")
+            items_table = Table(show_header=True, header_style="bold blue")
+            items_table.add_column("Type")
+            items_table.add_column("ID")
+            items_table.add_column("Version")
+            items_table.add_column("Status")
+            
+            for item in review.items:
+                items_table.add_row(
+                    item.item_type,
+                    item.item_id,
+                    item.version_id,
+                    item.status.value
+                )
+            console.print(items_table)
+            
+    except Exception as e:
+        console.print(f"[red]Error showing review: {str(e)}[/red]")
+        logger.exception("Error showing review")
+
+@review.command("update-status")
+@click.argument("review_id")
+@click.option("--status", "-s", required=True,
+              type=click.Choice([s.value for s in ReviewStatus]),
+              help="New status for the review")
+def update_review_status(review_id: str, status: str):
+    """Update the status of a review."""
+    try:
+        review = review_service.update_review_status(review_id, ReviewStatus(status))
+        console.print(f"[green]Updated review {review_id} status to: {status}[/green]")
+    except Exception as e:
+        console.print(f"[red]Error updating review status: {str(e)}[/red]")
+        logger.exception("Error updating review status")
+
+@review.command("add-item")
+@click.argument("review_id")
+@click.option("--item-id", "-i", required=True, help="ID of the item to add")
+@click.option("--type", "-t", required=True,
+              type=click.Choice(["shot", "asset"]),
+              help="Type of item")
+@click.option("--version", "-v", required=True, help="Version ID of the item")
+def add_review_item(review_id: str, item_id: str, type: str, version: str):
+    """Add an item to a review session."""
+    try:
+        item = review_service.add_review_item(
+            review_id=review_id,
+            item_id=item_id,
+            item_type=type,
+            version_id=version
+        )
+        console.print(f"[green]Added {type} {item_id} to review {review_id}[/green]")
+    except Exception as e:
+        console.print(f"[red]Error adding review item: {str(e)}[/red]")
+        logger.exception("Error adding review item")
+
+@review.command("remove-item")
+@click.argument("review_id")
+@click.argument("item_id")
+def remove_review_item(review_id: str, item_id: str):
+    """Remove an item from a review session."""
+    try:
+        review_service.remove_review_item(review_id, item_id)
+        console.print(f"[green]Removed item {item_id} from review {review_id}[/green]")
+    except Exception as e:
+        console.print(f"[red]Error removing review item: {str(e)}[/red]")
+        logger.exception("Error removing review item")
+
+
+@cli.group()
 def config():
     """Commands for managing configuration."""
     pass
@@ -470,3 +588,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+

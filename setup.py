@@ -21,8 +21,6 @@ setup(
         "uuid>=1.30",
         # OpenUSD dependency
         "usd-core>=23.11.0",
-        # OpenAssetIO dependency
-        "openassetio>=1.0.0b1",
     ],
     
     # Optional dependencies
@@ -55,6 +53,7 @@ setup(
             "cmake>=3.24.0",
             "ninja>=1.10.0",
         ],
+        "openassetio": ["openassetio>=1.0.0b1"],
     },
     
     # Entry points
