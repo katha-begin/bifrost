@@ -1,0 +1,85 @@
+[
+  {
+    "name": "previs",
+    "display_name": "Previs",
+    "description": "Previsualisation of shots in low fidelity",
+    "order": 1,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "layout",
+    "display_name": "Layout",
+    "description": "Camera and scene layout setup",
+    "order": 2,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "anim",
+    "display_name": "Animation",
+    "description": "Character and object animation",
+    "order": 3,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "fx",
+    "display_name": "FX",
+    "description": "Special effects and simulations",
+    "order": 4,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true,
+    "supports_cache": true
+  },
+  {
+    "name": "lighting",
+    "display_name": "Lighting",
+    "description": "Scene lighting setup and rendering",
+    "order": 5,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "render",
+    "display_name": "Rendering",
+    "description": "Final scene rendering",
+    "order": 6,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true,
+    "supports_layers": true
+  },
+  {
+    "name": "comp",
+    "display_name": "Compositing",
+    "description": "Final image compositing and post-processing",
+    "order": 7,
+    "allowed_statuses": ["not_started", "in_progress", "review", "approved", "published"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "master",
+    "display_name": "Shot Master",
+    "description": "Shot master configuration",
+    "order": 0,
+    "allowed_statuses": ["not_started", "in_progress", "ready", "approved", "locked"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true,
+    "is_master": true
+  }
+]

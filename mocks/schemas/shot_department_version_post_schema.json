@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["comment", "file_path"],
+  "properties": {
+    "comment": {
+      "type": "string",
+      "description": "Comment describing the changes in this version"
+    },
+    "file_path": {
+      "type": "string",
+      "description": "Path to the shot file for this version"
+    },
+    "preview_url": {
+      "type": "string",
+      "description": "URL to preview video (if applicable)"
+    },
+    "frame_range": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "Frame range as [start_frame, end_frame]"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "approved", "published"],
+      "default": "draft",
+      "description": "Initial status for the version"
+    },
+    "based_on_version": {
+      "type": "string",
+      "description": "ID of the version from another department this version is based on"
+    },
+    "based_on_department": {
+      "type": "string",
+      "description": "Department name that the based_on_version belongs to"
+    },
+    "assets_used": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "version_id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Asset ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Asset name"
+          },
+          "version_id": {
+            "type": "string",
+            "description": "Specific version ID of the asset used"
+          }
+        }
+      },
+      "description": "Assets used in this version"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata specific to the department"
+    }
+  }
+}

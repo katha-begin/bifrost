@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
@@ -20,7 +20,7 @@ const MOCK_TOKEN = 'mock-jwt-token-for-development';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { error, clearError } = useAuthStore();
+  const { login, error, clearError, isAuthenticated } = useAuthStore();
   const [formData, setFormData] = useState({
     email: 'dev@example.com',
     password: 'password',
@@ -28,43 +28,36 @@ export default function LoginPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Add console logs for debugging
-  console.log('Login page rendered');
-  console.log('Current auth state:', useAuthStore.getState());
+  useEffect(() => {
+    console.log('Login page mounted');
+    console.log('Initial auth state:', {
+      isAuthenticated,
+      token: Cookies.get('auth_token'),
+      error
+    });
+
+    // Check if already authenticated
+    if (isAuthenticated) {
+      console.log('Already authenticated, redirecting to home');
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Login form submitted');
+    console.log('Login form submitted with:', formData);
     setIsSubmitting(true);
 
     try {
-      console.log('Setting mock authentication...');
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      // Set the mock token in cookies
-      console.log('Setting auth cookie...');
-      Cookies.set('auth_token', MOCK_TOKEN, {
-        expires: 7, // 7 days
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+      console.log('Attempting login...');
+      await login(formData.email, formData.password);
+      console.log('Login successful, auth state:', {
+        isAuthenticated: useAuthStore.getState().isAuthenticated,
+        token: Cookies.get('auth_token')
       });
-      console.log('Cookie set:', Cookies.get('auth_token'));
-
-      // Update the auth store directly
-      console.log('Updating auth store...');
-      const authStore = useAuthStore.getState();
-      authStore.user = MOCK_USER;
-      authStore.token = MOCK_TOKEN;
-      authStore.isAuthenticated = true;
-      console.log('Auth store updated:', useAuthStore.getState());
-
-      // Navigate to home page
-      console.log('Navigating to home page...');
       router.push('/');
     } catch (error) {
       console.error('Login failed:', error);
-      alert('Login failed: ' + (error instanceof Error ? error.message : String(error)));
       setIsSubmitting(false);
     }
   };

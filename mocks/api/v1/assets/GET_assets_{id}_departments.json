@@ -1,0 +1,38 @@
+[
+  {
+    "name": "modeling",
+    "status": "published",
+    "latest_version": 5,
+    "latest_published_version": 4,
+    "assigned_to": "modeler1",
+    "due_date": "2025-04-10T00:00:00Z",
+    "completed_date": "2025-04-09T16:45:00Z"
+  },
+  {
+    "name": "rigging",
+    "status": "in_progress",
+    "latest_version": 3,
+    "latest_published_version": 2,
+    "assigned_to": "rigger1",
+    "due_date": "2025-04-20T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "texturing",
+    "status": "not_started",
+    "latest_version": null,
+    "latest_published_version": null,
+    "assigned_to": "texture_artist1",
+    "due_date": "2025-04-30T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "animation",
+    "status": "not_started",
+    "latest_version": null,
+    "latest_published_version": null,
+    "assigned_to": null,
+    "due_date": "2025-05-15T00:00:00Z",
+    "completed_date": null
+  }
+]

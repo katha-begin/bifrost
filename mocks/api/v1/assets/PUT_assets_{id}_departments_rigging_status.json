@@ -1,0 +1,34 @@
+{
+  "name": "rigging",
+  "status": "in_progress",
+  "latest_version": 3,
+  "latest_published_version": 2,
+  "assigned_to": "rigger1",
+  "due_date": "2025-04-20T00:00:00Z",
+  "completed_date": null,
+  "updated_at": "2025-04-18T11:30:00Z",
+  "updated_by": "project_manager",
+  "status_history": [
+    {
+      "status": "not_started",
+      "assigned_to": null,
+      "changed_at": "2025-04-01T10:00:00Z",
+      "changed_by": "system",
+      "note": "Initial department creation"
+    },
+    {
+      "status": "in_progress",
+      "assigned_to": "rigger1",
+      "changed_at": "2025-04-10T09:00:00Z",
+      "changed_by": "project_manager",
+      "note": "Starting rigging work"
+    },
+    {
+      "status": "in_progress",
+      "assigned_to": "rigger1",
+      "changed_at": "2025-04-18T11:30:00Z",
+      "changed_by": "project_manager",
+      "note": "Updated due date"
+    }
+  ]
+}

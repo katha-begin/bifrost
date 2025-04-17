@@ -1,0 +1,152 @@
+[
+  {
+    "id": "s01_ep01_seq001_sh010",
+    "name": "Shot 010",
+    "series": "s01",
+    "episode": "ep01",
+    "sequence": "seq001",
+    "shot_number": "010",
+    "status": "in_progress",
+    "created_at": "2025-03-15T09:00:00Z",
+    "created_by": "sequence_lead",
+    "modified_at": "2025-04-10T16:30:00Z",
+    "updated_at": "2025-04-10T16:30:00Z",
+    "thumbnail_url": "/thumbnails/s01_ep01_seq001_sh010.jpg",
+    "frame_range": [1001, 1125],
+    "frame_count": 125,
+    "frame_rate": 24,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "working_path": "/work/shots/s01/ep01/seq001/shot010/",
+    "published_path": "/published/shot/s01/ep01/seq001/shot010/",
+    "departments": [
+      {
+        "name": "layout",
+        "status": "published",
+        "latest_version": 2,
+        "latest_published_version": 2,
+        "assigned_to": "layout_artist1",
+        "due_date": "2025-03-25T00:00:00Z",
+        "completed_date": "2025-03-24T15:10:00Z"
+      },
+      {
+        "name": "anim",
+        "status": "in_progress",
+        "latest_version": 3,
+        "latest_published_version": 2,
+        "assigned_to": "animator1",
+        "due_date": "2025-04-15T00:00:00Z",
+        "completed_date": null
+      },
+      {
+        "name": "fx",
+        "status": "not_started",
+        "latest_version": null,
+        "latest_published_version": null,
+        "assigned_to": "fx_artist1",
+        "due_date": "2025-04-30T00:00:00Z",
+        "completed_date": null
+      },
+      {
+        "name": "lighting",
+        "status": "not_started",
+        "latest_version": null,
+        "latest_published_version": null,
+        "assigned_to": null,
+        "due_date": "2025-05-10T00:00:00Z",
+        "completed_date": null
+      },
+      {
+        "name": "comp",
+        "status": "not_started",
+        "latest_version": null,
+        "latest_published_version": null,
+        "assigned_to": null,
+        "due_date": "2025-05-20T00:00:00Z",
+        "completed_date": null
+      }
+    ],
+    "tags": ["hero_scene", "exterior", "day"]
+  },
+  {
+    "id": "s01_ep01_seq001_sh020",
+    "name": "Shot 020",
+    "series": "s01",
+    "episode": "ep01",
+    "sequence": "seq001",
+    "shot_number": "020",
+    "status": "layout",
+    "created_at": "2025-03-15T09:15:00Z",
+    "created_by": "sequence_lead",
+    "modified_at": "2025-03-28T11:45:00Z",
+    "updated_at": "2025-03-28T11:45:00Z",
+    "thumbnail_url": "/thumbnails/s01_ep01_seq001_sh020.jpg",
+    "frame_range": [1001, 1085],
+    "frame_count": 85,
+    "frame_rate": 24,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "working_path": "/work/shots/s01/ep01/seq001/shot020/",
+    "published_path": "/published/shot/s01/ep01/seq001/shot020/",
+    "departments": [
+      {
+        "name": "layout",
+        "status": "in_progress",
+        "latest_version": 1,
+        "latest_published_version": null,
+        "assigned_to": "layout_artist2",
+        "due_date": "2025-04-05T00:00:00Z",
+        "completed_date": null
+      },
+      {
+        "name": "anim",
+        "status": "not_started",
+        "latest_version": null,
+        "latest_published_version": null,
+        "assigned_to": null,
+        "due_date": "2025-04-20T00:00:00Z",
+        "completed_date": null
+      }
+    ],
+    "tags": ["dialogue", "interior"]
+  },
+  {
+    "id": "s01_ep01_seq001_sh030",
+    "name": "Shot 030",
+    "series": "s01",
+    "episode": "ep01",
+    "sequence": "seq001",
+    "shot_number": "030",
+    "status": "ready",
+    "created_at": "2025-03-15T09:30:00Z",
+    "created_by": "sequence_lead",
+    "modified_at": "2025-03-15T09:30:00Z",
+    "updated_at": "2025-03-15T09:30:00Z",
+    "thumbnail_url": "/thumbnails/s01_ep01_seq001_sh030.jpg",
+    "frame_range": [1001, 1065],
+    "frame_count": 65,
+    "frame_rate": 24,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "working_path": "/work/shots/s01/ep01/seq001/shot030/",
+    "published_path": "/published/shot/s01/ep01/seq001/shot030/",
+    "departments": [
+      {
+        "name": "layout",
+        "status": "not_started",
+        "latest_version": null,
+        "latest_published_version": null,
+        "assigned_to": null,
+        "due_date": "2025-04-10T00:00:00Z",
+        "completed_date": null
+      }
+    ],
+    "tags": ["action", "exterior", "night"]
+  }
+]

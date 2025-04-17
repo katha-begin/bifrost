@@ -1,0 +1,5 @@
+{
+  "name": "modeling",
+  "dependencies": [],
+  "description": "Modeling has no dependencies as it's typically the first stage in the pipeline"
+}

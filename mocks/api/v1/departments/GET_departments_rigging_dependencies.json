@@ -1,0 +1,11 @@
+{
+  "name": "rigging",
+  "dependencies": [
+    {
+      "department": "modeling",
+      "required_status": "published",
+      "description": "Rigging requires a published modeling asset to begin"
+    }
+  ],
+  "description": "Rigging depends on modeling being completed and published"
+}

@@ -1,7 +1,9 @@
-export default function LoadingSpinner() {
+'use client';
+
+export function LoadingSpinner() {
   return (
-    <div className="flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
     </div>
   );
 }

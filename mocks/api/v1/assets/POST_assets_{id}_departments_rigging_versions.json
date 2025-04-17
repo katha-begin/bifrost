@@ -1,0 +1,18 @@
+{
+  "id": "rig-v4-a1b2c3d4",
+  "version_number": 4,
+  "department": "rigging",
+  "status": "draft",
+  "created_at": "2025-04-18T10:15:00Z",
+  "created_by": "rigger1",
+  "file_path": "/assets/character_hero/rigging/v004/character_hero_rigging_v004.usd",
+  "comment": "Added support for cloth simulation interactions",
+  "review_status": "pending",
+  "review_comment": null,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "published_at": null,
+  "thumbnail_url": "/thumbnails/a1b2c3d4_rigging_v4.jpg",
+  "based_on_version": "mod-v4-a1b2c3d4",
+  "based_on_department": "modeling"
+}

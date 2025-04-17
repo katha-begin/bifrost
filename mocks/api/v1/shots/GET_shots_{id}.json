@@ -1,0 +1,142 @@
+{
+  "id": "s01_ep01_seq001_sh010",
+  "name": "Shot 010",
+  "display_name": "S01E01-SQ001-SH010",
+  "series": "s01",
+  "episode": "ep01",
+  "sequence": "seq001",
+  "shot_number": "010",
+  "status": "in_progress",
+  "description": "Hero character enters the forest clearing and discovers the ancient artifact",
+  "created_at": "2025-03-15T09:00:00Z",
+  "created_by": "sequence_lead",
+  "modified_at": "2025-04-10T16:30:00Z",
+  "updated_at": "2025-04-10T16:30:00Z",
+  "thumbnail_url": "/thumbnails/s01_ep01_seq001_sh010.jpg",
+  "frame_range": [1001, 1125],
+  "frame_count": 125,
+  "frame_rate": 24,
+  "handles": {
+    "head": 8,
+    "tail": 8
+  },
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "working_path": "/work/shots/s01/ep01/seq001/shot010/",
+  "published_path": "/published/shot/s01/ep01/seq001/shot010/",
+  "departments": [
+    {
+      "name": "layout",
+      "status": "published",
+      "latest_version": 2,
+      "latest_published_version": 2,
+      "assigned_to": "layout_artist1",
+      "due_date": "2025-03-25T00:00:00Z",
+      "completed_date": "2025-03-24T15:10:00Z"
+    },
+    {
+      "name": "anim",
+      "status": "in_progress",
+      "latest_version": 3,
+      "latest_published_version": 2,
+      "assigned_to": "animator1",
+      "due_date": "2025-04-15T00:00:00Z",
+      "completed_date": null
+    },
+    {
+      "name": "fx",
+      "status": "not_started",
+      "latest_version": null,
+      "latest_published_version": null,
+      "assigned_to": "fx_artist1",
+      "due_date": "2025-04-30T00:00:00Z",
+      "completed_date": null
+    },
+    {
+      "name": "lighting",
+      "status": "not_started",
+      "latest_version": null,
+      "latest_published_version": null,
+      "assigned_to": null,
+      "due_date": "2025-05-10T00:00:00Z",
+      "completed_date": null
+    },
+    {
+      "name": "comp",
+      "status": "not_started",
+      "latest_version": null,
+      "latest_published_version": null,
+      "assigned_to": null,
+      "due_date": "2025-05-20T00:00:00Z",
+      "completed_date": null
+    }
+  ],
+  "tags": ["hero_scene", "exterior", "day"],
+  "assets": [
+    {
+      "id": "a1b2c3d4",
+      "name": "Character_Hero",
+      "type": "character",
+      "version_id": "mod-v4-a1b2c3d4",
+      "department": "modeling",
+      "version_number": 4
+    },
+    {
+      "id": "e5f6g7h8",
+      "name": "Environment_Forest",
+      "type": "environment",
+      "version_id": "mod-v3-e5f6g7h8",
+      "department": "modeling",
+      "version_number": 3
+    },
+    {
+      "id": "m7n8o9p0",
+      "name": "Prop_Artifact",
+      "type": "prop",
+      "version_id": "mod-v2-m7n8o9p0",
+      "department": "modeling",
+      "version_number": 2
+    }
+  ],
+  "notes": [
+    {
+      "id": "note1",
+      "text": "Make sure the hero character's facial expression shows surprise when discovering the artifact",
+      "created_at": "2025-04-01T14:30:00Z",
+      "created_by": "director",
+      "department": "anim"
+    },
+    {
+      "id": "note2",
+      "text": "The lighting should emphasize the artifact with a subtle glow effect",
+      "created_at": "2025-04-02T10:15:00Z",
+      "created_by": "vfx_supervisor",
+      "department": "lighting"
+    }
+  ],
+  "editorial": {
+    "edit_id": "edit_v12",
+    "cut_in": "01:02:15:20",
+    "cut_out": "01:02:20:21",
+    "sequence_frame_range": [1850, 1975]
+  },
+  "metadata": {
+    "camera_data": {
+      "focal_length": 35,
+      "aperture": 5.6,
+      "camera_type": "main"
+    },
+    "reference_links": [
+      {
+        "name": "Concept Art",
+        "url": "/references/s01/ep01/seq001/sh010/concept.jpg"
+      },
+      {
+        "name": "Previz Video",
+        "url": "/references/s01/ep01/seq001/sh010/previz.mp4"
+      }
+    ]
+  }
+}

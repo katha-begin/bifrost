@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "review", "published", "approved"],
+      "description": "New status for the department"
+    },
+    "assigned_to": {
+      "type": ["string", "null"],
+      "description": "Username of person assigned to the department"
+    },
+    "due_date": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Due date for the department work"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note about the status change"
+    }
+  }
+}

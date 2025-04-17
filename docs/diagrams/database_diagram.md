@@ -120,9 +120,14 @@ erDiagram
         uuid asset_id FK "Nullable"
         uuid shot_id FK "Nullable"
         string status
+        string priority
         datetime due_date
         datetime created_at
         string created_by
+        jsonb tags
+        int estimated_hours
+        uuid department_id FK "Nullable"
+        jsonb dependencies
         jsonb metadata
     }
     
@@ -150,12 +155,15 @@ erDiagram
         uuid id PK
         string username
         string email
+        string password_hash
         string full_name
         string department
         boolean active
         datetime created_at
         datetime last_login
         jsonb preferences
+        jsonb teams
+        jsonb roles
         jsonb metadata
     }
     

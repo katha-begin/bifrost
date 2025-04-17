@@ -1,0 +1,11 @@
+{
+  "name": "texturing",
+  "dependencies": [
+    {
+      "department": "modeling",
+      "required_status": "published",
+      "description": "Texturing requires a published modeling asset to begin"
+    }
+  ],
+  "description": "Texturing depends on modeling being completed and published"
+}

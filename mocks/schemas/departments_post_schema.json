@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "display_name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Unique identifier for the department, lowercase with underscores"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name for the department"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the department's purpose"
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Order in the production pipeline"
+    },
+    "allowed_statuses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["not_started", "in_progress", "review", "published", "approved"]
+      },
+      "minItems": 1
+    },
+    "default_status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "review", "published", "approved"],
+      "default": "not_started"
+    },
+    "requires_approvals": {
+      "type": "boolean",
+      "default": true
+    },
+    "supports_versions": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

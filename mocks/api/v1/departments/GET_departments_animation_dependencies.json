@@ -1,0 +1,16 @@
+{
+  "name": "animation",
+  "dependencies": [
+    {
+      "department": "modeling",
+      "required_status": "published",
+      "description": "Animation requires a published modeling asset"
+    },
+    {
+      "department": "rigging",
+      "required_status": "published",
+      "description": "Animation requires a published rigging setup"
+    }
+  ],
+  "description": "Animation depends on both modeling and rigging being completed and published"
+}

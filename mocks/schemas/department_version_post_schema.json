@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["comment", "file_path"],
+  "properties": {
+    "comment": {
+      "type": "string",
+      "description": "Comment describing the changes in this version"
+    },
+    "file_path": {
+      "type": "string",
+      "description": "Path to the asset file for this version"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "approved", "published"],
+      "default": "draft",
+      "description": "Initial status for the version"
+    },
+    "based_on_version": {
+      "type": "string",
+      "description": "ID of the version from another department this version is based on"
+    },
+    "based_on_department": {
+      "type": "string",
+      "description": "Department name that the based_on_version belongs to"
+    }
+  }
+}

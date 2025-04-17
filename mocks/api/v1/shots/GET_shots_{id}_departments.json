@@ -1,0 +1,56 @@
+[
+  {
+    "name": "layout",
+    "status": "published",
+    "latest_version": 2,
+    "latest_published_version": 2,
+    "assigned_to": "layout_artist1",
+    "due_date": "2025-03-25T00:00:00Z",
+    "completed_date": "2025-03-24T15:10:00Z"
+  },
+  {
+    "name": "anim",
+    "status": "in_progress",
+    "latest_version": 3,
+    "latest_published_version": 2,
+    "assigned_to": "animator1",
+    "due_date": "2025-04-15T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "fx",
+    "status": "not_started",
+    "latest_version": null,
+    "latest_published_version": null,
+    "assigned_to": "fx_artist1",
+    "due_date": "2025-04-30T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "lighting",
+    "status": "not_started",
+    "latest_version": null,
+    "latest_published_version": null,
+    "assigned_to": null,
+    "due_date": "2025-05-10T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "comp",
+    "status": "not_started",
+    "latest_version": null,
+    "latest_published_version": null,
+    "assigned_to": null,
+    "due_date": "2025-05-20T00:00:00Z",
+    "completed_date": null
+  },
+  {
+    "name": "master",
+    "status": "ready",
+    "latest_version": 2,
+    "latest_published_version": 2,
+    "assigned_to": "shot_supervisor",
+    "due_date": "2025-03-20T00:00:00Z", 
+    "completed_date": "2025-03-19T16:30:00Z"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "modeling",
+    "display_name": "Modeling",
+    "description": "3D model creation",
+    "order": 1,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "rigging",
+    "display_name": "Rigging",
+    "description": "Creating skeletal structure and controls",
+    "order": 2,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "texturing",
+    "display_name": "Texturing",
+    "description": "Creating surface materials and textures",
+    "order": 3,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "animation",
+    "display_name": "Animation",
+    "description": "Character and object animation",
+    "order": 4,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "fx",
+    "display_name": "FX",
+    "description": "Special effects and simulations",
+    "order": 5,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "lighting",
+    "display_name": "Lighting",
+    "description": "Scene lighting setups",
+    "order": 6,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  },
+  {
+    "name": "compositing",
+    "display_name": "Compositing",
+    "description": "Final image composition",
+    "order": 7,
+    "allowed_statuses": ["not_started", "in_progress", "review", "published", "approved"],
+    "default_status": "not_started",
+    "requires_approvals": true,
+    "supports_versions": true
+  }
+]

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "type"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "enum": ["character", "prop", "environment", "vehicle"]
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": ["character", "prop", "environment", "vehicle"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["concept", "work_in_progress", "in_progress", "review", "approved", "published"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "departments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["modeling", "rigging", "texturing", "animation", "fx", "lighting", "compositing"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "review", "published", "approved"]
+          },
+          "latest_version": {
+            "type": ["integer", "null"]
+          },
+          "latest_published_version": {
+            "type": ["integer", "null"]
+          },
+          "assigned_to": {
+            "type": ["string", "null"]
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_date": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

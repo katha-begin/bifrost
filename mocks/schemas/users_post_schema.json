@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["username", "email", "password"],
+  "properties": {
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "Unique username for the user"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the user"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 8,
+      "description": "User password (will be hashed when stored)"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "User's full name"
+    },
+    "department": {
+      "type": "string",
+      "description": "User's department in the organization"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the user account is active"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Role IDs to associate with this user"
+    },
+    "preferences": {
+      "type": "object",
+      "description": "User preferences and settings",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": ["dark", "light", "system"],
+          "default": "system"
+        },
+        "language": {
+          "type": "string",
+          "default": "en"
+        },
+        "notifications_enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "teams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string",
+            "description": "ID of the team"
+          },
+          "role": {
+            "type": "string",
+            "description": "User's role within the team"
+          }
+        },
+        "required": ["team_id"]
+      },
+      "description": "Teams the user belongs to"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional custom metadata for the user",
+      "additionalProperties": true
+    }
+  }
+}
