@@ -1,0 +1,57 @@
+# Project Configuration Schema
+# Defines project-specific pipeline and workflow settings
+
+project_id: "example_project"
+name: "Example Project"
+description: "A short film project"
+
+# Pipeline configuration
+pipeline:
+  # Override global workflow with project-specific settings
+  workflow_type: "default"  # Use 'default' or 'lightweight' from dependencies.yaml, or 'custom'
+  
+  # Custom department dependencies (overrides global settings)
+  custom_department_dependencies:
+    # Example: Lighting doesn't need animation approval for this project
+    lighting:
+      requires:
+        - department: "shading"
+          status: "approved"
+        # Note: animation dependency removed
+  
+  # Custom asset workflows
+  asset_workflows:
+    character:
+      # Override character workflow sequence
+      sequence: ["concept", "modeling", "texture", "shading", "rigging"]
+    
+    prop:
+      # Add a project-specific asset type
+      sequence: ["concept", "modeling", "texture"]
+    
+    # Project-specific asset type
+    set_piece:
+      sequence: ["concept", "modeling", "texture", "shading"]
+  
+  # Custom shot workflows  
+  shot_workflows:
+    standard:
+      sequence: ["layout", "animation", "lighting", "rendering", "comp"]
+    
+    # Project-specific shot type
+    dialogue:
+      sequence: ["layout", "animation", "comp"]
+
+# Task template overrides
+task_templates:
+  modeling:
+    name_template: "{asset_name} Modeling"
+    description_template: "Create 3D model for {asset_name}"
+    estimated_hours: 16
+    priority: "medium"
+  
+  animation:
+    name_template: "{shot_code} Animation"
+    description_template: "Animate characters for {shot_code}"
+    estimated_hours: 24
+    priority: "high"

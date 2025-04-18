@@ -76,7 +76,7 @@ class ShotNote:
         """Mark this note as resolved."""
         self.resolved = True
         self.resolved_at = datetime.now()
-        self.resolved_by = user
+        self.resolved_by: user
 
 
 @dataclass
@@ -119,6 +119,8 @@ class Shot:
     modified_by: str = ""
     frame_range: tuple = (1, 1)  # (start_frame, end_frame)
     handle_range: tuple = (0, 0)  # (pre_handles, post_handles)
+    global_frame_start: int = 0
+    global_frame_end: int = 0
     
     # References to assets used in this shot
     asset_ids: Set[str] = field(default_factory=set)
@@ -167,6 +169,11 @@ class Shot:
         if not approved_versions:
             return None
         return max(approved_versions, key=lambda v: v.version_number)
+    
+    @property
+    def global_duration(self) -> int:
+        """Calculate the global duration of the shot in frames."""
+        return (self.global_frame_end - self.global_frame_start) + 1
     
     def add_version(self, version: ShotVersion) -> None:
         """Add a new version to this shot."""

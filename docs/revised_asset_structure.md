@@ -51,8 +51,7 @@ published/
 │   │   │   │   │   │
 │   │   │   │   │   ├── v001/
 │   │   │   │   │   │   │
-│   │   │   │   │   │   ├── asset.usd
-│   │   │   │   │   │   ├── payload.usd
+│   │   │   │   │   │   ├── asset.ma
 │   │   │   │   │   │   └── meta.json
 │   │   │   │   │   │
 │   │   │   │   │   └── ...
@@ -63,8 +62,7 @@ published/
 │   │   │       │   │
 │   │   │       │   ├── v001/
 │   │   │       │   │   │
-│   │   │       │   │   ├── asset.usd
-│   │   │       │   │   ├── payload.usd
+│   │   │       │   │   ├── asset.[ext]
 │   │   │       │   │   └── meta.json
 │   │   │       │   │
 │   │   │       │   └── ...

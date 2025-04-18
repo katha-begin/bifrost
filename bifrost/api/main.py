@@ -130,9 +130,15 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
 # Include routers from other modules
 from .routers import assets, shots, reviews
 
+# Include the new mock assets API for testing assembly functionality
+from .routers import mock_assets
+
 app.include_router(assets.router, prefix="/api/v1", tags=["assets"])
 app.include_router(shots.router, prefix="/api/v1", tags=["shots"])
 app.include_router(reviews.router, prefix="/api/v1", tags=["reviews"])
+
+# Mount the mock assets API for testing
+app.include_router(mock_assets.router, tags=["mock-assets"])
 
 # For testing the API is running
 @app.get("/")

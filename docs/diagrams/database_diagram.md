@@ -11,6 +11,7 @@ erDiagram
         string description
         uuid asset_type_id FK
         string status
+        boolean is_assembly
         datetime created_at
         string created_by
         datetime modified_at
@@ -25,6 +26,7 @@ erDiagram
         string display_name
         string description
         string icon
+        boolean supports_assembly
         jsonb metadata
     }
     
@@ -48,6 +50,14 @@ erDiagram
         jsonb metadata
     }
     
+    ASSEMBLY_COMPONENT {
+        uuid id PK
+        uuid assembly_id FK
+        uuid component_asset_id FK
+        jsonb transform
+        jsonb override_parameters
+    }
+    
     %% Shot Domain
     SHOT {
         uuid id PK
@@ -56,6 +66,8 @@ erDiagram
         uuid sequence_id FK
         int frame_start
         int frame_end
+        int global_frame_start
+        int global_frame_end
         string status
         datetime created_at
         string created_by
@@ -71,6 +83,10 @@ erDiagram
         string code
         uuid episode_id FK
         string description
+        int frame_start
+        int frame_end
+        int global_frame_start
+        int global_frame_end
         jsonb metadata
     }
     
@@ -80,6 +96,10 @@ erDiagram
         string code
         uuid series_id FK
         string description
+        int frame_start
+        int frame_end
+        int global_frame_start
+        int global_frame_end
         jsonb metadata
     }
     
@@ -244,6 +264,7 @@ erDiagram
    - **ASSET_TYPE**: Classification of assets (character, prop, environment, etc.)
    - **ASSET_VERSION**: Versioning history for assets
    - **ASSET_DEPENDENCY**: Relationship between assets
+   - **ASSEMBLY_COMPONENT**: Components of an assembly asset
 
 2. **Shot Domain**
    - **SERIES**: Top-level organization (show, film, etc.)

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "Name of the pipeline step"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this pipeline step does"
+    },
+    "step_order": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Order of step in pipeline sequence (0-based)"
+    },
+    "department_id": {
+      "type": ["string", "null"],
+      "description": "ID of the department responsible for this step"
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of input file types or assets required for this step"
+    },
+    "output_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of output file types or assets produced by this step"
+    },
+    "task_template": {
+      "type": "object",
+      "description": "Default task template for this pipeline step",
+      "properties": {
+        "name_template": {
+          "type": "string",
+          "description": "Template for task name, can include variables like {asset_name}"
+        },
+        "description_template": {
+          "type": "string",
+          "description": "Template for task description, can include variables"
+        },
+        "estimated_hours": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Default estimated hours for tasks"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "in_progress", "review", "completed", "blocked"],
+          "default": "not_started",
+          "description": "Default status for new tasks"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium",
+          "description": "Default priority for new tasks"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of pipeline steps that must be completed before this one"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this pipeline step is active in the workflow"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional custom metadata for the pipeline step",
+      "additionalProperties": true
+    }
+  }
+}

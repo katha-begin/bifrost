@@ -1,28 +1,49 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["name", "type", "status"],
+  "required": ["name", "description", "asset_type_id"],
   "properties": {
     "name": {
       "type": "string",
-      "minLength": 1
+      "description": "Name of the asset"
     },
-    "type": {
+    "description": {
       "type": "string",
-      "enum": ["character", "prop", "environment", "vehicle"]
+      "description": "Description of the asset"
+    },
+    "asset_type_id": {
+      "type": "string",
+      "description": "ID of the asset type"
+    },
+    "is_assembly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this asset is an assembly that can contain other assets"
+    },
+    "contained_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of assets contained in this assembly (only applicable if is_assembly=true)"
     },
     "status": {
       "type": "string",
-      "enum": ["concept", "work_in_progress", "review", "approved", "published"]
-    },
-    "description": {
-      "type": "string"
+      "enum": ["pending", "in_progress", "review", "approved", "final", "archived"],
+      "default": "pending",
+      "description": "Current status of the asset"
     },
     "tags": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "description": "Tags associated with the asset"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional custom metadata for the asset",
+      "additionalProperties": true
     }
   }
 }

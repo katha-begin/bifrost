@@ -7,7 +7,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Set
 from pathlib import Path
 
 
@@ -15,7 +15,11 @@ class AssetType(Enum):
     """Enumeration of possible asset types in an animation pipeline."""
     CHARACTER = "character"
     PROP = "prop"
+    VEHICLE = "vehicle"
     ENVIRONMENT = "environment"
+    INTERIOR = "interior"
+    EXTERIOR = "exterior"
+    SET_PIECE = "set_piece"
     FX = "fx"
     LIGHTING = "lighting"
     MATERIAL = "material"
@@ -23,6 +27,17 @@ class AssetType(Enum):
     TEXTURE = "texture"
     ANIMATION = "animation"
     OTHER = "other"
+    
+    @classmethod
+    def assembly_types(cls) -> Set[str]:
+        """Return the set of asset types that are typically assemblies."""
+        return {cls.ENVIRONMENT.value, cls.INTERIOR.value, cls.EXTERIOR.value}
+        
+    @classmethod
+    def individual_types(cls) -> Set[str]:
+        """Return the set of asset types that are typically individual assets."""
+        return {cls.CHARACTER.value, cls.PROP.value, cls.VEHICLE.value, cls.SET_PIECE.value, 
+                cls.FX.value, cls.MATERIAL.value, cls.RIG.value, cls.TEXTURE.value}
 
 
 class AssetStatus(Enum):
@@ -69,12 +84,23 @@ class AssetDependency:
 
 
 @dataclass
+class AssemblyComponent:
+    """Represents an asset included within an assembly."""
+    asset_id: str  # ID of the contained asset
+    transform: Optional[Dict] = None  # Transformation data (position, rotation, scale)
+    override_parameters: Dict = field(default_factory=dict)  # Parameters that override the original asset
+
+
+@dataclass
 class Asset:
     """
     Represents a production asset in the animation pipeline.
     
     An asset is any digital content used in the production, such as 
     characters, props, environments, textures, etc.
+    
+    Assets can be either individual assets (characters, props) or
+    assemblies (environments, sets) that contain other assets.
     """
     id: str
     name: str
@@ -85,6 +111,12 @@ class Asset:
     modified_by: str = ""
     description: str = ""
     status: AssetStatus = AssetStatus.CONCEPT
+    
+    # Assembly-specific fields
+    is_assembly: bool = False
+    contained_assets: List[AssemblyComponent] = field(default_factory=list)
+    
+    # Common fields
     tags: List[AssetTag] = field(default_factory=list)
     versions: List[AssetVersion] = field(default_factory=list)
     dependencies: List[AssetDependency] = field(default_factory=list)
@@ -99,6 +131,10 @@ class Asset:
             self.thumbnail_path = Path(self.thumbnail_path)
         if isinstance(self.preview_path, str):
             self.preview_path = Path(self.preview_path)
+        
+        # Auto-detect if this is an assembly based on the asset type if not explicitly set
+        if not self.is_assembly and self.asset_type.value in AssetType.assembly_types():
+            self.is_assembly = True
     
     @property
     def latest_version(self) -> Optional[AssetVersion]:
@@ -140,3 +176,36 @@ class Asset:
         self.status = status
         self.modified_by = updated_by
         self.modified_at = datetime.now()
+    
+    def add_component(self, asset_id: str, transform: Optional[Dict] = None, 
+                    override_parameters: Optional[Dict] = None) -> None:
+        """Add a component asset to this assembly."""
+        if not self.is_assembly:
+            raise ValueError("Cannot add components to a non-assembly asset")
+        
+        component = AssemblyComponent(
+            asset_id=asset_id,
+            transform=transform or {},
+            override_parameters=override_parameters or {}
+        )
+        self.contained_assets.append(component)
+        self.modified_at = datetime.now()
+    
+    def remove_component(self, asset_id: str) -> bool:
+        """Remove a component asset from this assembly."""
+        if not self.is_assembly:
+            return False
+            
+        initial_length = len(self.contained_assets)
+        self.contained_assets = [c for c in self.contained_assets if c.asset_id != asset_id]
+        
+        if len(self.contained_assets) < initial_length:
+            self.modified_at = datetime.now()
+            return True
+        return False
+    
+    def get_all_component_ids(self) -> List[str]:
+        """Get IDs of all component assets in this assembly."""
+        if not self.is_assembly:
+            return []
+        return [component.asset_id for component in self.contained_assets]

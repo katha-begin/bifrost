@@ -83,9 +83,36 @@ class DatabaseManager:
                     modified_by TEXT,
                     description TEXT,
                     status TEXT NOT NULL,
+                    is_assembly BOOLEAN NOT NULL DEFAULT FALSE,
                     thumbnail_path TEXT,
                     preview_path TEXT,
                     metadata TEXT
+                )
+                ''')
+                
+                # Asset types
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS asset_types (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    display_name TEXT NOT NULL,
+                    description TEXT,
+                    icon TEXT,
+                    supports_assembly BOOLEAN NOT NULL DEFAULT FALSE,
+                    metadata TEXT
+                )
+                ''')
+                
+                # Assembly components
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS assembly_components (
+                    id TEXT PRIMARY KEY,
+                    assembly_id TEXT NOT NULL,
+                    component_asset_id TEXT NOT NULL,
+                    transform TEXT,
+                    override_parameters TEXT,
+                    FOREIGN KEY (assembly_id) REFERENCES assets (id) ON DELETE CASCADE,
+                    FOREIGN KEY (component_asset_id) REFERENCES assets (id) ON DELETE CASCADE
                 )
                 ''')
                 
@@ -130,7 +157,66 @@ class DatabaseManager:
                 )
                 ''')
                 
-                # Shots table
+                # Series table (top-level show organization)
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS series (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    code TEXT NOT NULL,
+                    description TEXT,
+                    metadata TEXT,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    modified_at TIMESTAMP NOT NULL,
+                    modified_by TEXT
+                )
+                ''')
+                
+                # Episodes table 
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS episodes (
+                    id TEXT PRIMARY KEY,
+                    series_id TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    code TEXT NOT NULL,
+                    description TEXT,
+                    frame_start INTEGER NOT NULL,
+                    frame_end INTEGER NOT NULL,
+                    global_frame_start INTEGER,
+                    global_frame_end INTEGER,
+                    status TEXT NOT NULL,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    modified_at TIMESTAMP NOT NULL,
+                    modified_by TEXT,
+                    metadata TEXT,
+                    FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Sequences table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS sequences (
+                    id TEXT PRIMARY KEY,
+                    episode_id TEXT,
+                    name TEXT NOT NULL,
+                    code TEXT NOT NULL,
+                    description TEXT,
+                    frame_start INTEGER NOT NULL,
+                    frame_end INTEGER NOT NULL,
+                    global_frame_start INTEGER,
+                    global_frame_end INTEGER,
+                    status TEXT NOT NULL,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    modified_at TIMESTAMP NOT NULL,
+                    modified_by TEXT,
+                    metadata TEXT,
+                    FOREIGN KEY (episode_id) REFERENCES episodes (id) ON DELETE SET NULL
+                )
+                ''')
+                
+                # Shots table with enhanced frame tracking
                 cursor.execute('''
                 CREATE TABLE IF NOT EXISTS shots (
                     id TEXT PRIMARY KEY,
@@ -145,10 +231,13 @@ class DatabaseManager:
                     modified_by TEXT,
                     frame_start INTEGER NOT NULL,
                     frame_end INTEGER NOT NULL,
-                    handle_pre INTEGER NOT NULL,
-                    handle_post INTEGER NOT NULL,
+                    global_frame_start INTEGER,
+                    global_frame_end INTEGER,
+                    handle_pre INTEGER NOT NULL DEFAULT 0,
+                    handle_post INTEGER NOT NULL DEFAULT 0,
                     thumbnail_path TEXT,
-                    metadata TEXT
+                    metadata TEXT,
+                    FOREIGN KEY (sequence_id) REFERENCES sequences (id) ON DELETE CASCADE
                 )
                 ''')
                 
@@ -179,6 +268,176 @@ class DatabaseManager:
                     PRIMARY KEY (shot_id, asset_id),
                     FOREIGN KEY (shot_id) REFERENCES shots (id) ON DELETE CASCADE,
                     FOREIGN KEY (asset_id) REFERENCES assets (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Projects table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS projects (
+                    id TEXT PRIMARY KEY,
+                    project_code TEXT UNIQUE NOT NULL,
+                    name TEXT NOT NULL,
+                    description TEXT,
+                    status TEXT NOT NULL,
+                    start_date TIMESTAMP,
+                    end_date TIMESTAMP,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    updated_at TIMESTAMP,
+                    updated_by TEXT,
+                    fps REAL NOT NULL DEFAULT 24.0,
+                    resolution TEXT NOT NULL DEFAULT '1920x1080',
+                    colorspace TEXT NOT NULL DEFAULT 'ACES',
+                    metadata TEXT
+                )
+                ''')
+                
+                # Pipeline steps (departments)
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS pipeline_steps (
+                    id TEXT PRIMARY KEY,
+                    department_id TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    description TEXT,
+                    step_order INTEGER NOT NULL,
+                    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    updated_at TIMESTAMP,
+                    updated_by TEXT,
+                    metadata TEXT
+                )
+                ''')
+                
+                # Pipeline step requirements
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS pipeline_step_requirements (
+                    id TEXT PRIMARY KEY,
+                    pipeline_step_id TEXT NOT NULL,
+                    required_department TEXT NOT NULL,
+                    required_status TEXT NOT NULL DEFAULT 'approved',
+                    FOREIGN KEY (pipeline_step_id) REFERENCES pipeline_steps (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Pipeline step outputs
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS pipeline_step_outputs (
+                    id TEXT PRIMARY KEY,
+                    pipeline_step_id TEXT NOT NULL,
+                    type TEXT NOT NULL,
+                    formats TEXT NOT NULL,
+                    location TEXT NOT NULL,
+                    FOREIGN KEY (pipeline_step_id) REFERENCES pipeline_steps (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Pipeline workflows
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS pipeline_workflows (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    type TEXT NOT NULL,
+                    description TEXT,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT,
+                    updated_at TIMESTAMP,
+                    updated_by TEXT,
+                    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+                    metadata TEXT
+                )
+                ''')
+                
+                # Asset workflows
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS asset_workflows (
+                    id TEXT PRIMARY KEY,
+                    workflow_id TEXT NOT NULL,
+                    asset_type TEXT NOT NULL,
+                    sequence TEXT NOT NULL,
+                    FOREIGN KEY (workflow_id) REFERENCES pipeline_workflows (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Shot workflows
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS shot_workflows (
+                    id TEXT PRIMARY KEY,
+                    workflow_id TEXT NOT NULL,
+                    shot_type TEXT NOT NULL,
+                    sequence TEXT NOT NULL,
+                    FOREIGN KEY (workflow_id) REFERENCES pipeline_workflows (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Project pipeline configurations
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS project_pipeline_configs (
+                    id TEXT PRIMARY KEY,
+                    project_id TEXT NOT NULL,
+                    workflow_type TEXT NOT NULL DEFAULT 'default',
+                    config TEXT NOT NULL,
+                    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Project custom department dependencies
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS project_department_overrides (
+                    id TEXT PRIMARY KEY,
+                    project_id TEXT NOT NULL,
+                    department_id TEXT NOT NULL,
+                    requires TEXT NOT NULL,
+                    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Project task template overrides
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS project_task_templates (
+                    id TEXT PRIMARY KEY,
+                    project_id TEXT NOT NULL,
+                    department_id TEXT NOT NULL,
+                    name_template TEXT,
+                    description_template TEXT,
+                    estimated_hours REAL,
+                    priority TEXT,
+                    status TEXT,
+                    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Tasks table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS tasks (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    description TEXT,
+                    status TEXT NOT NULL,
+                    priority TEXT NOT NULL,
+                    assignee_id TEXT,
+                    asset_id TEXT,
+                    shot_id TEXT,
+                    department_id TEXT,
+                    due_date TIMESTAMP,
+                    created_at TIMESTAMP NOT NULL,
+                    created_by TEXT NOT NULL,
+                    estimated_hours REAL,
+                    tags TEXT,
+                    metadata TEXT,
+                    FOREIGN KEY (asset_id) REFERENCES assets (id) ON DELETE SET NULL,
+                    FOREIGN KEY (shot_id) REFERENCES shots (id) ON DELETE SET NULL
+                )
+                ''')
+                
+                # Task dependencies
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS task_dependencies (
+                    id TEXT PRIMARY KEY,
+                    task_id TEXT NOT NULL,
+                    depends_on_task_id TEXT NOT NULL,
+                    FOREIGN KEY (task_id) REFERENCES tasks (id) ON DELETE CASCADE,
+                    FOREIGN KEY (depends_on_task_id) REFERENCES tasks (id) ON DELETE CASCADE
                 )
                 ''')
                 
@@ -226,13 +485,56 @@ class DatabaseManager:
                     id TEXT PRIMARY KEY,
                     username TEXT UNIQUE NOT NULL,
                     email TEXT UNIQUE NOT NULL,
+                    password_hash TEXT NOT NULL,
                     full_name TEXT,
                     department TEXT,
-                    role TEXT,
+                    active BOOLEAN NOT NULL DEFAULT TRUE,
                     created_at TIMESTAMP NOT NULL,
                     last_login TIMESTAMP,
-                    is_active BOOLEAN NOT NULL,
+                    preferences TEXT,
                     metadata TEXT
+                )
+                ''')
+                
+                # Roles table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS roles (
+                    id TEXT PRIMARY KEY,
+                    name TEXT UNIQUE NOT NULL,
+                    description TEXT,
+                    permissions TEXT NOT NULL
+                )
+                ''')
+                
+                # User roles junction table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS user_roles (
+                    id TEXT PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    role_id TEXT NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+                    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Teams table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS teams (
+                    id TEXT PRIMARY KEY,
+                    name TEXT UNIQUE NOT NULL,
+                    description TEXT
+                )
+                ''')
+                
+                # Team members junction table
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS team_members (
+                    id TEXT PRIMARY KEY,
+                    team_id TEXT NOT NULL,
+                    user_id TEXT NOT NULL,
+                    role TEXT,
+                    FOREIGN KEY (team_id) REFERENCES teams (id) ON DELETE CASCADE,
+                    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
                 )
                 ''')
                 
@@ -280,6 +582,21 @@ class DatabaseManager:
                     metadata TEXT,
                     attachments TEXT,
                     FOREIGN KEY (review_id) REFERENCES reviews (id) ON DELETE CASCADE
+                )
+                ''')
+                
+                # Activity log
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS activities (
+                    id TEXT PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    action TEXT NOT NULL,
+                    entity_type TEXT NOT NULL,
+                    entity_id TEXT,
+                    timestamp TIMESTAMP NOT NULL,
+                    changes TEXT,
+                    ip_address TEXT,
+                    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
                 )
                 ''')
                 

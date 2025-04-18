@@ -17,6 +17,11 @@
       "enum": ["not_started", "in_progress", "review", "completed", "blocked"],
       "description": "Current status of the task"
     },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Priority level of the task"
+    },
     "assignee_id": {
       "type": ["string", "null"],
       "description": "ID of the user assigned to the task"
@@ -34,40 +39,33 @@
       "format": "date-time",
       "description": "Due date for the task"
     },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for categorizing and filtering tasks"
+    },
+    "estimated_hours": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Estimated time to complete in hours"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of tasks that must be completed before this one can be started"
+    },
+    "department_id": {
+      "type": ["string", "null"],
+      "description": "ID of the department associated with this task"
+    },
     "metadata": {
       "type": "object",
       "description": "Additional custom metadata for the task",
-      "additionalProperties": true,
-      "properties": {
-        "priority": {
-          "type": "string",
-          "enum": ["low", "medium", "high", "critical"],
-          "description": "Priority level of the task"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Tags for categorizing and filtering tasks"
-        },
-        "estimated_hours": {
-          "type": ["number", "null"],
-          "minimum": 0,
-          "description": "Estimated time to complete in hours"
-        },
-        "dependencies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "IDs of tasks that must be completed before this one can be started"
-        },
-        "department_id": {
-          "type": ["string", "null"],
-          "description": "ID of the department associated with this task"
-        }
-      }
+      "additionalProperties": true
     }
   }
 }
